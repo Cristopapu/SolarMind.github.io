@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolarMind - Cotizador de Planes</title>
+  <link rel="stylesheet" href="cotizador.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="#" class="logo">
+        <div class="logo-icon"><i class="fas fa-sun"></i></div>
+        <span>SolarMind</span>
+        <span class="logo-badge">Cotizador</span>
+      </a>
+      <a href="planes-casas.html" class="btn-nav">
+        <i class="fas fa-arrow-left"></i>
+        Volver a Planes
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-calculator"></i>
+        <span>Cotización Personalizada</span>
+      </div>
+      <h1>Solicita tu <span>Cotización</span></h1>
+      <p>Selecciona tu plan ideal y recibe una cotización sin compromiso</p>
+    </div>
+  </section>
+
+  <!-- Plan Selector -->
+  <section class="plan-selector">
+    <h2>Elige tu Plan</h2>
+    <div class="plans-grid">
+      <div class="plan-option" data-plan="basico">
+        <div class="plan-icon cyan"><i class="fas fa-home"></i></div>
+        <h3>Plan Básico</h3>
+        <p>Ideal para casas pequeñas o departamentos</p>
+        <div class="plan-price">$1,499<span>/mes</span></div>
+        <div class="plan-check"><i class="fas fa-check"></i></div>
+      </div>
+
+      <div class="plan-option selected" data-plan="familiar">
+        <div class="popular-tag">Más Popular</div>
+        <div class="plan-icon green"><i class="fas fa-users"></i></div>
+        <h3>Plan Familiar</h3>
+        <p>Perfecto para familias de 4-6 personas</p>
+        <div class="plan-price">$2,999<span>/mes</span></div>
+        <div class="plan-check"><i class="fas fa-check"></i></div>
+      </div>
+
+      <div class="plan-option" data-plan="premium">
+        <div class="plan-icon purple"><i class="fas fa-crown"></i></div>
+        <h3>Plan Premium</h3>
+        <p>Para casas grandes y alto consumo</p>
+        <div class="plan-price">$4,999<span>/mes</span></div>
+        <div class="plan-check"><i class="fas fa-check"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="main-content">
+    <div class="content-grid">
+      <!-- Plan Details -->
+      <div class="plan-details">
+        <div class="plan-details-header" id="planHeader">
+          <div class="plan-details-icon green"><i class="fas fa-users"></i></div>
+          <div>
+            <h3 id="planName">Plan Familiar</h3>
+            <p id="planDesc">Perfecto para familias de 4-6 personas</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+            <span class="stat-label">Capacidad</span>
+            <span class="stat-value" id="statCapacidad">8 paneles (3.2 kW)</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-piggy-bank"></i></div>
+            <span class="stat-label">Ahorro Mensual</span>
+            <span class="stat-value" id="statAhorro">$1,800 - $2,500</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+            <span class="stat-label">Garantía</span>
+            <span class="stat-value" id="statGarantia">20 años</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-leaf"></i></div>
+            <span class="stat-label">Energía</span>
+            <span class="stat-value">100% Limpia</span>
+          </div>
+        </div>
+
+        <h4>Incluye:</h4>
+        <ul class="features-list" id="featuresList">
+          <li><i class="fas fa-check-circle"></i> 8 paneles solares (3.2 kW)</li>
+          <li><i class="fas fa-check-circle"></i> Inversor híbrido</li>
+          <li><i class="fas fa-check-circle"></i> Batería de respaldo</li>
+          <li><i class="fas fa-check-circle"></i> Instalación premium</li>
+          <li><i class="fas fa-check-circle"></i> Monitoreo 24/7</li>
+          <li><i class="fas fa-check-circle"></i> Garantía 20 años</li>
+          <li><i class="fas fa-check-circle"></i> Mantenimiento anual gratis</li>
+        </ul>
+
+        <div class="price-box">
+          <p>Precio mensual: <span id="planPriceDisplay">$2,999</span></p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-container">
+        <div id="formSection">
+          <h3>Solicitar Cotización</h3>
+          <p class="form-subtitle">Completa tus datos y te contactaremos pronto</p>
+
+          <form id="cotizacionForm">
+            <div class="form-group">
+              <label>Nombre completo *</label>
+              <input type="text" id="nombre" required placeholder="Tu nombre">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" required placeholder="tu@email.com">
+              </div>
+              <div class="form-group">
+                <label>Teléfono *</label>
+                <input type="tel" id="telefono" required placeholder="55 1234 5678">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Dirección</label>
+              <input type="text" id="direccion" placeholder="Ciudad, Estado">
+            </div>
+
+            <div class="form-group">
+              <label>Consumo mensual aproximado</label>
+              <select id="consumo">
+                <option value="">Selecciona tu consumo</option>
+                <option value="bajo">Menos de $1,000 MXN</option>
+                <option value="medio">$1,000 - $2,500 MXN</option>
+                <option value="alto">$2,500 - $5,000 MXN</option>
+                <option value="muy-alto">Más de $5,000 MXN</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Mensaje adicional</label>
+              <textarea id="mensaje" rows="3" placeholder="¿Tienes alguna pregunta o comentario?"></textarea>
+            </div>
+
+            <div class="privacy-notice">
+              <i class="fas fa-shield-alt"></i>
+              <p>Tus datos están protegidos. No compartimos tu información con terceros.</p>
+            </div>
+
+            <button type="submit" class="btn-submit">
+              Solicitar Cotización Gratis
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successSection" class="success-message" style="display: none;">
+          <div class="success-icon"><i class="fas fa-sparkles"></i></div>
+          <h3>¡Solicitud Enviada!</h3>
+          <p>Gracias por tu interés en el <strong id="successPlan">Plan Familiar</strong>.<br>Nos pondremos en contacto contigo en las próximas 24 horas.</p>
+          <div class="contact-info">
+            <div><i class="fas fa-phone"></i> +52 55 1234 5678</div>
+            <div><i class="fas fa-envelope"></i> hogares@solarmind.com</div>
+          </div>
+          <button class="btn-secondary" onclick="resetForm()">Enviar otra solicitud</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Info -->
+  <section class="contact-section">
+    <h2>¿Prefieres contactarnos directamente?</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+        <h4>Teléfono</h4>
+        <p>+52 55 1234 5678</p>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+        <h4>Email</h4>
+        <p>hogares@solarmind.com</p>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <h4>Oficina</h4>
+        <p>CDMX, México</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 SolarMind. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="cotizador.js"></script>
+</body>
+</html>

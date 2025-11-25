@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarMind Enterprise - Cotizaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #0f172a, #1e293b, #0f172a);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo-badge {
+            font-size: 0.6rem;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            margin-left: 0.5rem;
+        }
+
+        .btn-contact {
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none; /* para que el enlace no tenga subrayado */
+        }
+
+        .btn-contact:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 6rem 2rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1600&q=80') center/cover;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(249, 115, 22, 0.2);
+            border: 1px solid rgba(249, 115, 22, 0.5);
+            color: #fdba74;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #f97316, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Stats */
+        .stats {
+            padding: 3rem 2rem;
+            background: rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(249, 115, 22, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: #f97316;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Planes */
+        .planes {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .planes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .plan-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .plan-card.popular {
+            border: 2px solid #f97316;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+        }
+
+        .plan-header {
+            padding: 2rem;
+            color: white;
+        }
+
+        .plan-header.starter {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        .plan-header.business {
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+        }
+
+        .plan-header.enterprise {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+        }
+
+        .plan-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .plan-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 1.75rem;
+            font-weight: 900;
+        }
+
+        .plan-features {
+            padding: 2rem;
+        }
+
+        .plan-features ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        .plan-features li i {
+            color: #4ade80;
+            margin-top: 0.25rem;
+        }
+
+        .plan-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .plan-btn.primary {
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: white;
+        }
+
+        .plan-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .plan-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Formulario */
+        .cotizacion-form {
+            padding: 5rem 2rem;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group label i {
+            margin-right: 0.5rem;
+            color: #f97316;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(51, 65, 85, 0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #64748b;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.4);
+        }
+
+        .form-note {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        /* Success Message */
+        .success-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(74, 222, 128, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 3rem;
+            color: #4ade80;
+        }
+
+        .success-message h3 {
+            font-size: 1.75rem;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message p {
+            color: #64748b;
+        }
+
+        /* Clientes */
+        .clientes {
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .clientes p {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .clientes-logos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            opacity: 0.5;
+        }
+
+        .clientes-logos span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem 2rem;
+            background: #0f172a;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col p,
+        .footer-col li {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .planes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .planes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group {
+                grid-column: 1;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.75rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">
+                ☀️ SolarMind
+                <span class="logo-badge">Enterprise</span>
+            </a>
+            <!-- Cambié el <button> por un enlace <a> que redirige a asesores.html -->
+            <a href="asesores.html" class="btn-contact">
+                <i class="fas fa-phone"></i>
+                Contactar Ventas
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-star"></i>
+                Soluciones Empresariales
+            </div>
+            <h1>
+                Energía Solar para
+                <span>Grandes Empresas</span>
+            </h1>
+            <p>
+                Reduce hasta un 80% en costos de energía con nuestras soluciones solares 
+                personalizadas para corporativos e industrias.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollToForm()">
+                    Solicitar Cotización
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="btn-secondary">
+                    Ver Casos de Éxito
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fas fa-building"></i></div>
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Empresas Confían en Nosotros</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                <div class="stat-number">15MW</div>
+                <div class="stat-label">Capacidad Instalada</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="stat-number">45%</div>
+                <div class="stat-label">Ahorro Promedio</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Soporte Disponible</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planes -->
+    <section class="planes">
+        <div class="section-header">
+            <h2>Planes Empresariales</h2>
+            <p>Soluciones escalables diseñadas para cada tamaño de empresa</p>
+        </div>
+
+        <div class="planes-grid">
+            <!-- Plan Starter -->
+            <div class="plan-card animate-in delay-1">
+                <div class="plan-header starter">
+                    <div class="plan-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="plan-name">Plan Starter</div>
+                    <div class="plan-desc">Ideal para pequeñas y medianas empresas</div>
+                    <div class="plan-price">Desde $45,000/mes</div>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación de hasta 50 paneles</li>
+                        <li><i class="fas fa-check-circle"></i> Monitoreo en tiempo real</li>
+                        <li><i class="fas fa-check-circle"></i> Mantenimiento trimestral</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte técnico 8/5</li>
+                        <li><i class="fas fa-check-circle"></i> Garantía 10 años</li>
+                        <li><i class="fas fa-check-circle"></i> Ahorro estimado: 40%</li>
+                    </ul>
+                    <button class="plan-btn secondary" onclick="selectPlan('starter')">
+                        Solicitar Cotización
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plan Business -->
+            <div class="plan-card popular animate-in delay-2">
+                <div class="popular-badge">Más Popular</div>
+                <div class="plan-header business">
+                    <div class="plan-icon"><i class="fas fa-building"></i></div>
+                    <div class="plan-name">Plan Business</div>
+                    <div class="plan-desc">Para empresas en crecimiento</div>
+                    <div class="plan-price">Desde $125,000/mes</div>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación de hasta 200 paneles</li>
+                        <li><i class="fas fa-check-circle"></i> Sistema de baterías incluido</li>
+                        <li><i class="fas fa-check-circle"></i> Monitoreo 24/7 con alertas</li>
+                        <li><i class="fas fa-check-circle"></i> Mantenimiento mensual</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte técnico 24/7</li>
+                        <li><i class="fas fa-check-circle"></i> Garantía 15 años</li>
+                        <li><i class="fas fa-check-circle"></i> Ahorro estimado: 60%</li>
+                        <li><i class="fas fa-check-circle"></i> Dashboard ejecutivo</li>
+                    </ul>
+                    <button class="plan-btn primary" onclick="selectPlan('business')">
+                        Solicitar Cotización
+                    </button>
+                </div>
+            </div>
+
+            <!-- Plan Enterprise -->
+            <div class="plan-card animate-in delay-3">
+                <div class="plan-header enterprise">
+                    <div class="plan-icon"><i class="fas fa-sun"></i></div>
+                    <div class="plan-name">Plan Enterprise</div>
+                    <div class="plan-desc">Soluciones a la medida para grandes corporativos</div>
+                    <div class="plan-price">Personalizado</div>
+                </div>
+                <div class="plan-features">
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Instalación ilimitada de paneles</li>
+                        <li><i class="fas fa-check-circle"></i> Almacenamiento industrial</li>
+                        <li><i class="fas fa-check-circle"></i> Centro de control dedicado</li>
+                        <li><i class="fas fa-check-circle"></i> Ingeniero residente</li>
+                        <li><i class="fas fa-check-circle"></i> Mantenimiento semanal</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte VIP 24/7</li>
+                        <li><i class="fas fa-check-circle"></i> Garantía 25 años</li>
+                        <li><i class="fas fa-check-circle"></i> Ahorro estimado: hasta 80%</li>
+                        <li><i class="fas fa-check-circle"></i> Consultoría energética incluida</li>
+                    </ul>
+                    <button class="plan-btn secondary" onclick="selectPlan('enterprise')">
+                        Solicitar Cotización
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario -->
+    <section class="cotizacion-form" id="formSection">
+        <div class="form-container">
+            <div class="section-header">
+                <h2>Solicita tu Cotización</h2>
+                <p>Completa el formulario y un asesor especializado te contactará</p>
+            </div>
+
+            <div class="form-card">
+                <form id="cotizacionForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-building"></i>Nombre de la Empresa *</label>
+                            <input type="text" id="empresa" placeholder="Ej: ACME Corporation" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i>Nombre del Contacto *</label>
+                            <input type="text" id="contacto" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i>Email Corporativo *</label>
+                            <input type="email" id="email" placeholder="correo@empresa.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i>Teléfono *</label>
+                            <input type="tel" id="telefono" placeholder="+52 55 1234 5678" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-users"></i>Número de Empleados</label>
+                            <select id="empleados">
+                                <option value="">Selecciona un rango</option>
+                                <option value="10-50">10 - 50 empleados</option>
+                                <option value="51-200">51 - 200 empleados</option>
+                                <option value="201-500">201 - 500 empleados</option>
+                                <option value="501-1000">501 - 1,000 empleados</option>
+                                <option value="1000+">Más de 1,000 empleados</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-bolt"></i>Consumo Mensual Aprox.</label>
+                            <select id="consumo">
+                                <option value="">Selecciona un rango</option>
+                                <option value="menos-50000">Menos de $50,000 MXN</option>
+                                <option value="50000-100000">$50,000 - $100,000 MXN</option>
+                                <option value="100000-500000">$100,000 - $500,000 MXN</option>
+                                <option value="500000-1000000">$500,000 - $1,000,000 MXN</option>
+                                <option value="mas-1000000">Más de $1,000,000 MXN</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label><i class="fas fa-clipboard-list"></i>Plan de Interés</label>
+                            <select id="plan">
+                                <option value="">Selecciona un plan</option>
+                                <option value="starter">Plan Starter</option>
+                                <option value="business">Plan Business</option>
+                                <option value="enterprise">Plan Enterprise</option>
+                                <option value="personalizado">Necesito asesoría personalizada</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label><i class="fas fa-comment"></i>Mensaje Adicional</label>
+                            <textarea id="mensaje" placeholder="Cuéntanos más sobre tus necesidades energéticas, ubicación de la empresa, etc."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="form-submit">
+                        Enviar Solicitud de Cotización
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <p class="form-note">
+                        Al enviar este formulario, aceptas nuestros términos y condiciones. Tu información está protegida.
+                    </p>
+                </form>
+
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h3>¡Solicitud Enviada!</h3>
+                    <p>Un asesor se pondrá en contacto contigo en las próximas 24 horas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clientes -->
+    <section class="clientes">
+        <p>Empresas que confían en SolarMind</p>
+        <div class="clientes-logos">
+            <span>ACME Corp</span>
+            <span>TechGlobal</span>
+            <span>IndustriaMX</span>
+            <span>GreenFactory</span>
+            <span>MegaMart</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>☀️ SolarMind Enterprise</h4>
+                <p>Soluciones solares de clase mundial para empresas que buscan eficiencia energética y sostenibilidad.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Soluciones</h4>
+                <ul>
+                    <li>Plan Starter</li>
+                    <li>Plan Business</li>
+                    <li>Plan Enterprise</li>
+                    <li>Consultoría Energética</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Recursos</h4>
+                <ul>
+                    <li>Casos de Éxito</li>
+                    <li>Blog Energético</li>
+                    <li>Calculadora de Ahorro</li>
+                    <li>Centro de Ayuda</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto Empresarial</h4>
+                <ul>
+                    <li>📧 enterprise@solarmind.com</li>
+                    <li>📱 +52 55 1234 5678</li>
+                    <li>🏢 CDMX, México</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 SolarMind Enterprise. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll al formulario
+        function scrollToForm() {
+            document.getElementById('formSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Seleccionar plan y scroll al formulario
+        function selectPlan(planId) {
+            document.getElementById('plan').value = planId;
+            scrollToForm();
+        }
+
+        // Enviar formulario
+        document.getElementById('cotizacionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Obtener datos del formulario
+            const formData = {
+                empresa: document.getElementById('empresa').value,
+                contacto: document.getElementById('contacto').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                empleados: document.getElementById('empleados').value,
+                consumo: document.getElementById('consumo').value,
+                plan: document.getElementById('plan').value,
+                mensaje: document.getElementById('mensaje').value
+            };
+
+            console.log('Datos enviados:', formData);
+
+            // Mostrar mensaje de éxito
+            document.getElementById('cotizacionForm').style.display = 'none';
+            document.getElementById('successMessage').classList.add('show');
+
+            // Opcional: Guardar en localStorage
+            localStorage.setItem('ultimaCotizacion', JSON.stringify(formData));
+        });
+
+        // Animación al scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.plan-card, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

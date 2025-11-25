@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLAR MIND - Catálogo Energy</title>
+      
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            transition: 0.3s;
+        }
+
+        .cart-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-button:hover {
+            background: white;
+            color: #FFA500;
+        }
+
+        .cart-count {
+            background: #FF0000;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            background: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1600') center/cover;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,165,0,0.3);
+            box-shadow: 0 20px 40px rgba(255,165,0,0.4);
+        }
+
+        .stat-card span {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .products-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: 0.4s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: 0.6s;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.2) rotate(3deg);
+        }
+
+        .product-body {
+            padding: 1.5rem;
+        }
+
+        .product-body h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.8rem;
+            height: 2.6rem;
+            overflow: hidden;
+        }
+
+        .product-body p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            height: 3rem;
+            overflow: hidden;
+        }
+
+        .product-price {
+            color: #FF0000;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-buy {
+            width: 100%;
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover {
+            background: linear-gradient(90deg, #FF8C00, #FFA500);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255,165,0,0.5);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 2rem;
+        }
+
+        .social-links a {
+            color: white;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+            color: #FFD700;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .section-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">☀️ SolarMind</a>
+            <a href="carrito.html" class="cart-button">
+                🛒 Carrito
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>CATÁLOGO ENERGY: TU PORTAL A LA INDEPENDENCIA SOLAR</h1>
+            <p>Soluciones fotovoltaicas premium, diseñadas para ser accesibles y garantizar la máxima rentabilidad para tu hogar o negocio</p>
+            <div class="stats">
+                <div class="stat-card">
+                    <span>⚡</span>
+                    <h3>POTENCIA 100% RENOVABLE</h3>
+                    <p>Tu consumo opera con cero emisiones. Elige la fuente de energía más limpia y contribuye activamente a un futuro descarbonizado.</p>
+                </div>
+                <div class="stat-card">
+                    <span>💰</span>
+                    <h3>MÁXIMO RETORNO DE INVERSIÓN</h3>
+                    <p>Deja de pagar costosas tarifas. Logra un ahorro de hasta el 60% en tu factura desde el primer día y convierte la luz solar en un activo financiero.</p>
+                </div>
+                <div class="stat-card">
+                    <span>🌳</span>
+                    <h3>IMPULSA EL FUTURO SOSTENIBLE</h3>
+                    <p>Cada kilovatio generado con SolarMind es un acto directo de compromiso planetario, minimizando tu huella y promoviendo la justicia ambiental.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="products-container">
+            <h2 class="section-title">Nuestros Productos</h2>
+            <p class="section-subtitle">Encuentra la solución solar perfecta para ti</p>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>☀️ SolarMind</h3>
+                <p>Tu aliado en energía solar accesible y sustentable</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📧 info@solarmind.com</p>
+                <p>📱 +52 55 1234 5678</p>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">📷</a>
+                    <a href="#">🐦</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SOLAR MIND | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Lámpara Solar Básica",
+                description: "Ideal para hogares rurales o campamentos. Carga con el sol y brinda luz por 6 horas.",
+                price: 320,
+                image: "Lamapara solar basica.jpg"
+            },
+            {
+                id: 2,
+                name: "Mini Panel Solar Educativo",
+                description: "Aprende cómo funciona la energía solar con este kit económico para estudiantes.",
+                price: 250,
+                image: "Panel educativo.jpg"
+            },
+            {
+                id: 3,
+                name: "Lampara Solar de Jardín",
+                description: "Económica y decorativa. Se carga de día y se enciende automáticamente de noche.",
+                price: 185,
+                image: "Lampara jardin.jpg"
+            },
+            {
+                id: 4,
+                name: "Cargador Solar Portátil",
+                description: "Pequeño y práctico. Perfecto para cargar tu celular en zonas sin electricidad.",
+                price: 450,
+                image: "cargador solar.jpg"
+            },
+            {
+                id: 5,
+                name: "Linterna Solar Recargable",
+                description: "Alternativa económica para emergencias o cortes de luz. Sin pilas ni cables.",
+                price: 200,
+                image: "linterna.png"
+            },
+            {
+                id: 6,
+                name: "Panel Solar USB",
+                description: "Panel compacto para alimentar pequeños dispositivos. Bajo costo y alta utilidad.",
+                price: 550,
+                image: "panel usb.jpg"
+            },
+            {
+                id: 7,
+                name: "Mini Ventilador USB Solar",
+                description: "Mini ventilador de bajo consumo. Funciona conectado a tu panel USB.",
+                price: 130,
+                image: "https://i5.walmartimages.com/asr/bc83dc93-48e6-4a7e-a47e-63ea22708a32.35e35e4154082f19c5cdb765d0533e73.jpeg"
+            },
+            {
+                id: 8,
+                name: "Lámpara Solar Colgante",
+                description: "Solución sencilla y accesible para iluminar exteriores o pequeños talleres.",
+                price: 290,
+                image: "lampara colgante.jpg"
+            },
+            {
+                id: 9,
+                name: "Kit Solar para Camping",
+                description: "Kit completo con panel, batería y lámparas LED para campamentos.",
+                price: 890,
+                image: "kit de camping.jpg"
+            },
+            {
+                id: 10,
+                name: "Reflector Solar LED",
+                description: "Reflector potente con sensor de movimiento. Perfecto para seguridad.",
+                price: 680,
+                image: "reflector solar.jpg"
+            },
+            {
+                id: 11,
+                name: "Radio Solar Portátil",
+                description: "Radio AM/FM con carga solar y manivela. Ideal para emergencias.",
+                price: 420,
+                image: "radio solar.jpg"
+            },
+            {
+                id: 12,
+                name: "Bomba de Agua Solar",
+                description: "Bomba solar para fuentes o riego de jardín. Ecológica y eficiente.",
+                price: 590,
+                image: "bomba solar.jpeg"
+            },
+            {
+                id: 13,
+                name: "Mochila Solar con USB",
+                description: "Mochila con panel solar integrado para cargar dispositivos mientras caminas.",
+                price: 750,
+                image: "mochila solar.jpg"
+            },
+            {
+                id: 14,
+                name: "Calentador Solar Portátil",
+                description: "Calentador solar compacto para agua. Perfecto para duchas al aire libre.",
+                price: 1200,
+                image: "calentador solar.png"
+            },
+            {
+                id: 15,
+                name: "Lámpara Solar de Mesa",
+                description: "Lámpara decorativa con carga solar. Moderna y funcional.",
+                price: 340,
+                image: "lampara de mesa.jpeg"
+            },
+        ];
+            
+
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.onclick = () => goToProduct(product.id);
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-body">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <span class="product-price">$${product.price}.00 MXN</span>
+                        <button class="btn-buy">🛒 Ver Producto</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function goToProduct(id) {
+            localStorage.setItem('selectedProduct', id);
+            window.location.href = 'producto.html';
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const el = document.getElementById('cartCount');
+            if (el) el.textContent = totalItems;
+        }
+
+        loadProducts();
+        updateCartCount();
+        setInterval(updateCartCount, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Alianzas por el Planeta | SOLAR MIND</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* ==== inicio: contenido completo de alianzas-style.css con modificaciones para slots de logos ==== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --amber-400: #fbbf24;
+    --amber-500: #f59e0b;
+    --amber-600: #d97706;
+    --orange-500: #f97316;
+    --orange-600: #ea580c;
+    --blue-500: #3b82f6;
+    --cyan-500: #06b6d4;
+    --green-500: #10b981;
+    --teal-500: #14b8a6;
+    --slate-900: #0f172a;
+    --gray-900: #111827;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom right, #f8fafc, #ffffff, #fef3c7);
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: linear-gradient(to right, var(--amber-500), var(--orange-500), var(--amber-600));
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.nav-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.2));
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.navbar .container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.logo-wrapper {
+    position: relative;
+}
+
+.logo-glow {
+    position: absolute;
+    inset: 0;
+    background: white;
+    border-radius: 1rem;
+    filter: blur(20px);
+    opacity: 0.5;
+    animation: pulse 2s ease-in-out infinite;
+    transition: opacity 0.3s;
+}
+
+.logo-link:hover .logo-glow {
+    opacity: 0.8;
+}
+
+.logo-icon {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.logo-link:hover .logo-icon {
+    transform: scale(1.1) rotate(12deg);
+}
+
+.logo-icon i {
+    font-size: 2rem;
+    color: white;
+    animation: spin-slow 8s linear infinite;
+}
+
+.logo-text {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.025em;
+    transition: letter-spacing 0.3s ease;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo-link:hover .logo-text {
+    letter-spacing: 0.05em;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 80px;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    animation: ken-burns 20s ease-in-out infinite;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+}
+
+.particles-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(251, 191, 36, 0.3);
+    border-radius: 50%;
+    animation: float-up 5s ease-in-out infinite;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    margin-bottom: 2rem;
+    animation: badge-glow 2s ease-in-out infinite;
+}
+
+.hero-badge i {
+    color: var(--amber-400);
+    font-size: 1.25rem;
+}
+
+.hero-badge span {
+    color: var(--amber-400);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+}
+
+.hero-badge i:last-child {
+    animation: spin-slow 8s linear infinite;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.hero-title-line1 {
+    display: block;
+    animation: fade-pulse 2s ease-in-out infinite;
+}
+
+.hero-title-line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--amber-400), var(--orange-500), var(--amber-400));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-flow 5s ease infinite;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+    color: #e5e7eb;
+    font-weight: 300;
+    max-width: 48rem;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+    animation: fade-in 1s ease-out 0.4s both;
+}
+
+.desktop-break {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .desktop-break {
+        display: block;
+    }
+}
+
+.floating-icons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.float-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: float 2s ease-in-out infinite;
+}
+
+.float-icon:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.float-icon:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.float-icon i {
+    color: var(--amber-400);
+    font-size: 1.25rem;
+}
+
+.hero-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 96px;
+    background: linear-gradient(to top, white, transparent);
+    z-index: 10;
+}
+
+/* Manifiesto Section */
+.manifiesto-section {
+    position: relative;
+    padding: 6rem 0;
+    background: white;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.blob-1 {
+    top: 0;
+    right: 0;
+    width: 384px;
+    height: 384px;
+    background: #fef3c7;
+    animation: blob-float-1 8s ease-in-out infinite;
+}
+
+.blob-2 {
+    bottom: 0;
+    left: 0;
+    width: 384px;
+    height: 384px;
+    background: #fed7aa;
+    animation: blob-float-2 10s ease-in-out infinite;
+}
+
+.blob-3 {
+    top: 50%;
+    left: 50%;
+    width: 288px;
+    height: 288px;
+    background: #fde68a;
+    animation: blob-float-3 15s ease-in-out infinite;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.section-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #fffbeb;
+    color: #b45309;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    animation: badge-pulse 2s ease-in-out infinite;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+    animation: fade-in-up 0.6s ease-out;
+}
+
+.section-title.light {
+    color: white;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, var(--amber-600), var(--orange-600));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-line {
+    width: 96px;
+    height: 4px;
+    background: linear-gradient(to right, var(--amber-500), var(--orange-500));
+    margin: 0 auto;
+    border-radius: 9999px;
+    animation: line-grow 1s ease-out 0.3s both;
+}
+
+.section-subtitle {
+    color: #9ca3af;
+    font-size: 1.25rem;
+    font-weight: 300;
+    max-width: 48rem;
+    margin: 1rem auto 0;
+}
+
+.manifiesto-content {
+    max-width: 80rem;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.lead-text {
+    font-size: 1.25rem;
+    color: #374151;
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.body-text {
+    font-size: 1.125rem;
+    color: #4b5563;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+}
+
+.quote-box {
+    position: relative;
+    background: linear-gradient(to bottom right, #fffbeb, #fed7aa);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border-left: 4px solid var(--amber-500);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+.quote-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(251, 191, 36, 0.2);
+}
+
+.quote-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.quote-icon {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 3rem;
+    color: rgba(251, 191, 36, 0.2);
+    animation: quote-float 4s ease-in-out infinite;
+}
+
+blockquote {
+    position: relative;
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #1f2937;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.quote-author {
+    text-align: right;
+    color: #4b5563;
+    font-weight: 500;
+    animation: fade-in 0.5s ease-out 0.5s both;
+}
+
+/* Pilares Section */
+.pilares-section {
+    padding: 6rem 0;
+    background: linear-gradient(to bottom, #f9fafb, white);
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 88rem;
+    margin: 0 auto;
+}
+
+.pilar-card {
+    position: relative;
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f3f4f6;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.pilar-card:hover {
+    transform: translateY(-12px) rotate(-1deg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.card-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.pilar-card:hover .card-bg {
+    opacity: 0.05;
+}
+
+.pilar-card[data-color="blue"] .card-bg {
+    background: linear-gradient(to bottom right, var(--blue-500), var(--cyan-500));
+}
+
+.pilar-card[data-color="orange"] .card-bg {
+    background: linear-gradient(to bottom right, var(--amber-500), var(--orange-500));
+}
+
+.pilar-card[data-color="green"] .card-bg {
+    background: linear-gradient(to bottom right, var(--green-500), var(--teal-500));
+}
+
+.card-pattern {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    animation: pattern-move 3s ease-in-out infinite;
+}
+
+.pilar-card:hover .card-pattern {
+    opacity: 1;
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: transform 0.5s ease;
+}
+
+.pilar-card:hover .card-icon {
+    transform: scale(1.1);
+}
+
+.card-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.blue-gradient {
+    background: linear-gradient(to bottom right, var(--blue-500), var(--cyan-500));
+}
+
+.orange-gradient {
+    background: linear-gradient(to bottom right, var(--amber-500), var(--orange-500));
+}
+
+.green-gradient {
+    background: linear-gradient(to bottom right, var(--green-500), var(--teal-500));
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.card-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    flex: 1;
+}
+
+.badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    color: white;
+}
+
+.card-content p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.card-glow {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.pilar-card:hover .card-glow {
+    opacity: 0.2;
+}
+
+.pilar-card[data-color="blue"] .card-glow {
+    background: linear-gradient(to bottom right, var(--blue-500), var(--cyan-500));
+}
+
+.pilar-card[data-color="orange"] .card-glow {
+    background: linear-gradient(to bottom right, var(--amber-500), var(--orange-500));
+}
+
+.pilar-card[data-color="green"] .card-glow {
+    background: linear-gradient(to bottom right, var(--green-500), var(--teal-500));
+}
+
+/* Impacto Section */
+.impacto-section {
+    padding: 6rem 0;
+    background: linear-gradient(to bottom, var(--slate-900), var(--gray-900));
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.blob-dark {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+}
+
+.blob-dark-1 {
+    top: 80px;
+    left: 40px;
+    width: 288px;
+    height: 288px;
+    background: rgba(251, 191, 36, 0.1);
+    animation: blob-orbit-1 10s ease-in-out infinite;
+}
+
+.blob-dark-2 {
+    bottom: 80px;
+    right: 40px;
+    width: 384px;
+    height: 384px;
+    background: rgba(249, 115, 22, 0.1);
+    animation: blob-orbit-2 12s ease-in-out infinite;
+}
+
+.particles-dark-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particle-dark {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(251, 191, 36, 0.4);
+    border-radius: 50%;
+    animation: float-up 6s ease-in-out infinite;
+}
+
+.impacto-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.impacto-card:hover {
+    transform: translateY(-12px) rotate(1deg);
+    border-color: rgba(251, 191, 36, 0.5);
+    box-shadow: 0 20px 60px rgba(251, 191, 36, 0.2);
+}
+
+.card-bg-dark {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(251, 191, 36, 0), rgba(249, 115, 22, 0));
+    opacity: 0;
+    transition: opacity 0.5s;
+    animation: bg-pulse 5s ease-in-out infinite;
+}
+
+.impacto-card:hover .card-bg-dark {
+    opacity: 0.1;
+}
+
+.card-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.2), transparent);
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.impacto-card:hover .card-shimmer {
+    animation: shimmer-slide 2s ease-in-out 0.5s infinite;
+    opacity: 1;
+}
+
+.card-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: 1.5rem;
+    transition: all 0.5s;
+}
+
+.impacto-card:hover .card-ring {
+    border-color: rgba(251, 191, 36, 0.5);
+    animation: ring-pulse 2s ease-in-out infinite;
+}
+
+.card-icon-dark {
+    width: 56px;
+    height: 56px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: transform 0.5s ease;
+}
+
+.impacto-card:hover .card-icon-dark {
+    transform: scale(1.1) rotate(6deg);
+}
+
+.card-icon-dark i {
+    font-size: 1.75rem;
+    color: white;
+}
+
+.impacto-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.impacto-card p {
+    color: #d1d5db;
+    line-height: 1.6;
+}
+
+/* Aliados Section (MODIFICADO para slots de logos) */
+.aliados-section {
+    padding: 6rem 0;
+    background: white;
+}
+
+/* Use flex to center the logo cards and avoid automatic stretching */
+.logos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* centra los items horizontalmente */
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+}
+
+/* Fijar tamaño base de las tarjetas para evitar que se desalineen */
+.logo-card {
+    position: relative;
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f3f4f6;
+    height: 128px;
+    width: 160px;          /* ancho fijo para consistencia */
+    flex: 0 0 160px;       /* evita que crezcan o se encojan */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    transform-origin: center; /* evita shifts al escalar */
+    padding-top: 0.875rem;
+    padding-bottom: 0.625rem;
+}
+
+/* espacio específico donde colocar el logo - se mantiene centrado */
+.logo-image {
+    width: 100%;
+    height: 72px;               /* alto del contenedor de logo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+}
+
+/* placeholder si no hay imagen */
+.logo-image.placeholder {
+    border-radius: 8px;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    border: 1px dashed #e5e7eb;
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+
+/* la img debe ajustar sin distorsión */
+.logo-image img {
+    max-width: 80%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* si quieres mantener iconos fontawesome como fallback */
+.logo-card i {
+    font-size: 2.25rem;
+    color: #d1d5db;
+    display: none; /* escondemos por defecto cuando hay imagen; se puede activar si se necesita */
+}
+
+.logo-card:hover i {
+    color: var(--amber-500);
+}
+
+/* nombre del partner en la parte inferior */
+.logo-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+    margin-top: 0.5rem;
+    opacity: 1; /* ahora lo mostramos siempre para identificar el slot */
+    text-align: center;
+}
+
+/* hover visual mantiene la misma animación */
+.logo-card:hover {
+    transform: translateY(-10px) rotate(-2deg) scale(1.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.logo-card-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, rgba(251, 191, 36, 0), rgba(249, 115, 22, 0));
+    opacity: 0;
+    transition: opacity 0.5s;
+    animation: bg-pulse 3s ease-in-out infinite;
+}
+
+.logo-card:hover .logo-card-glow {
+    opacity: 0.2;
+}
+
+.logo-card-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: 1rem;
+    transition: all 0.5s;
+}
+
+.logo-card:hover .logo-card-ring {
+    border-color: rgba(251, 191, 36, 0.5);
+    animation: ring-pulse 2s ease-in-out infinite;
+}
+
+.decorative-footer {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.decorative-footer > div {
+    position: relative;
+    display: inline-block;
+}
+
+.decorative-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--amber-500), var(--orange-500));
+    filter: blur(40px);
+    opacity: 0.2;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.decorative-footer p {
+    position: relative;
+    color: #6b7280;
+    font-size: 1.125rem;
+    font-weight: 300;
+    font-style: italic;
+    padding: 1rem 2rem;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(to right, var(--amber-500), var(--orange-500));
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer p {
+    font-size: 0.875rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+}
+
+/* Animations */
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+@keyframes ken-burns {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes float-up {
+    0% { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-200px); opacity: 0; }
+}
+
+@keyframes badge-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.5); }
+}
+
+@keyframes fade-pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+@keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes blob-float-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, -30px) scale(1.2); }
+}
+
+@keyframes blob-float-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, 30px) scale(1.3); }
+}
+
+@keyframes blob-float-3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) scale(1.5) rotate(180deg); }
+}
+
+@keyframes badge-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes line-grow {
+    from { width: 0; }
+    to { width: 96px; }
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes quote-float {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.1); }
+}
+
+@keyframes pattern-move {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes blob-orbit-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, -50px) scale(1.5); }
+}
+
+@keyframes blob-orbit-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-100px, 50px) scale(1.3); }
+}
+
+@keyframes bg-pulse {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes shimmer-slide {
+    0% { transform: translateX(-100%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(200%); opacity: 0; }
+}
+
+@keyframes ring-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar .container {
+        height: 64px;
+    }
+    
+    .logo-icon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .logo-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .logo-text {
+        font-size: 1.5rem;
+    }
+    
+    .hero-section {
+        min-height: 60vh;
+    }
+    
+    .floating-icons {
+        gap: 1rem;
+    }
+    
+    .float-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .manifiesto-section,
+    .pilares-section,
+    .impacto-section,
+    .aliados-section {
+        padding: 4rem 0;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    /* En pantallas pequeñas, que cada logo ocupe ~50% del ancho disponible (con gap considerado) */
+    .logos-grid {
+        gap: 1rem;
+    }
+    .logo-card {
+        flex: 0 0 calc(50% - 0.75rem);
+        width: calc(50% - 0.75rem);
+    }
+}
+/* ==== fin: contenido de alianzas-style.css ==== */
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-glow"></div>
+        <div class="container">
+            <a href="index.html" class="logo-link" aria-label="Ir al inicio">
+                <div class="logo-wrapper">
+                    <div class="logo-glow"></div>
+                    <div class="logo-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                </div>
+                <span class="logo-text">SolarMind</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="particles-container"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-sparkles"></i>
+                <span>Colaboración Global</span>
+                <i class="fas fa-globe"></i>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="hero-title-line1">ALIANZAS ESTRATÉGICAS:</span>
+                <span class="hero-title-line2">ACELERANDO EL FUTURO SOSTENIBLE</span>
+            </h1>
+            
+            <p class="hero-subtitle">
+                Liderazgo global compartido. Nuestro compromiso inquebrantable para impulsar la Agenda 2030<br class="desktop-break">
+                y liderar la transición energética mundial.
+            </p>
+
+            <div class="floating-icons">
+                <div class="float-icon"><i class="fas fa-globe"></i></div>
+                <div class="float-icon"><i class="fas fa-bolt"></i></div>
+                <div class="float-icon"><i class="fas fa-globe"></i></div>
+            </div>
+        </div>
+        
+        <div class="hero-fade"></div>
+    </section>
+
+    <!-- Manifiesto Section -->
+    <section class="manifiesto-section">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Nuestro Compromiso</span>
+                <h2 class="section-title">EL PODER DE LA COLABORACIÓN MULTISECTORIAL</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="manifiesto-content">
+                <p class="lead-text">
+                    En SolarMind, hemos asumido que los desafíos monumentales como el cambio climático
+                    y la inequidad energética exigen respuestas monumentales. La colaboración no es una
+                    opción, es nuestro motor de innovación.
+                </p>
+                
+                <p class="body-text">
+                    Nuestra red de alianzas estratégicas con 
+                    líderes mundiales en tecnología, finanzas y desarrollo social, nos permite trascender fronteras. 
+                    Juntos, no solo entregamos soluciones solares de bajo costo, sino que aceleramos la investigación 
+                    pionera y garantizamos que el impacto positivo de la energía limpia llegue a las comunidades que 
+                    más lo necesitan.
+                </p>
+
+                <div class="quote-box">
+                    <div class="quote-shimmer"></div>
+                    <i class="fas fa-quote-left quote-icon"></i>
+                    <blockquote>
+                        "La sostenibilidad ya no es una meta. Es la única hoja de ruta. 
+                        Unir fuerzas multiplica el impacto y define el legado de nuestra generación."
+                    </blockquote>
+                    <p class="quote-author">— SolarMind Leadership</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pilares Section -->
+    <section class="pilares-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    Pilares de la Colaboración<br>
+                    <span class="gradient-text">Global</span>
+                </h2>
+            </div>
+
+            <div class="cards-grid">
+                <div class="pilar-card" data-color="blue">
+                    <div class="card-bg"></div>
+                    <div class="card-pattern"></div>
+                    <div class="card-icon blue-gradient">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3>ENERGÍA ACCESIBLE Y UNIVERSAL</h3>
+                            <span class="badge blue-gradient">ODS 7</span>
+                        </div>
+                        <p>Enfocamos nuestros recursos y alianzas para llevar soluciones solares confiables, seguras y asequibles a mercados emergentes y zonas históricamente sin cobertura eléctrica, transformando la vida de millones.</p>
+                    </div>
+                    <div class="card-glow"></div>
+                </div>
+
+                <div class="pilar-card" data-color="orange">
+                    <div class="card-bg"></div>
+                    <div class="card-pattern"></div>
+                    <div class="card-icon orange-gradient">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3>DESCARBONIZACIÓN Y HUELLA CERO</h3>
+                            <span class="badge orange-gradient">ODS 13</span>
+                        </div>
+                        <p>Desarrollamos proyectos conjuntos de medición y reducción de emisiones de carbono en toda la cadena de suministro. Esto nos permite liderar con el ejemplo en la lucha global contra el cambio climático.</p>
+                    </div>
+                    <div class="card-glow"></div>
+                </div>
+
+                <div class="pilar-card" data-color="green">
+                    <div class="card-bg"></div>
+                    <div class="card-pattern"></div>
+                    <div class="card-icon green-gradient">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3>PLATAFORMA GLOBAL DE DESARROLLO</h3>
+                            <span class="badge green-gradient">ODS 17</span>
+                        </div>
+                        <p>Construimos plataformas de conocimiento compartido, movilizando recursos financieros y experiencia técnica para el desarrollo sostenible. Somos el puente entre la tecnología innovadora y su aplicación social.</p>
+                    </div>
+                    <div class="card-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impacto Section -->
+    <section class="impacto-section">
+        <div class="blob-dark blob-dark-1"></div>
+        <div class="blob-dark blob-dark-2"></div>
+        <div class="particles-dark-container"></div>
+        
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title light">Áreas de Impacto Específico</h2>
+                <p class="section-subtitle">Nuestras alianzas generan impacto en puntos clave de la cadena de valor sostenible</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="impacto-card">
+                    <div class="card-bg-dark"></div>
+                    <div class="card-shimmer"></div>
+                    <div class="card-ring"></div>
+                    <div class="card-icon-dark orange-gradient">
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>INVESTIGACIÓN AVANZADA Y ANTICIPACIÓN</h3>
+                        <p>Inversión conjunta en materiales fotovoltaicos de próxima generación, creando sistemas más eficientes, resilientes y capaces de operar en las condiciones climáticas más extremas del planeta.</p>
+                    </div>
+                </div>
+
+                <div class="impacto-card">
+                    <div class="card-bg-dark"></div>
+                    <div class="card-shimmer"></div>
+                    <div class="card-ring"></div>
+                    <div class="card-icon-dark orange-gradient">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>SOLUCIONES FINANCIERAS PARA LA TRANSICIÓN</h3>
+                        <p>Creamos modelos financieros flexibles y accesibles (microcréditos y leasing inteligente) para que familias, emprendedores y pequeñas empresas puedan adquirir tecnología solar sin barreras económicas.</p>
+                    </div>
+                </div>
+
+                <div class="impacto-card">
+                    <div class="card-bg-dark"></div>
+                    <div class="card-shimmer"></div>
+                    <div class="card-ring"></div>
+                    <div class="card-icon-dark orange-gradient">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>LIDERAZGO EN CALIDAD Y CONFIANZA</h3>
+                        <p>Definición y promoción de protocolos rigurosos de calidad y seguridad. Nuestras alianzas aseguran que cada componente y proceso cumpla con los estándares globales para garantizar la longevidad y eficiencia superior de nuestros productos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aliados Section con slots para logos -->
+    <section class="aliados-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestros Socios Estratégicos: La confianza del liderazgo mundial</h2>
+                <p class="section-subtitle">Gracias a la visión compartida y el compromiso inquebrantable de empresas e instituciones que definen el panorama global.</p>
+            </div>
+
+            <div class="logos-grid">
+                <div class="logo-card" data-name="Google">
+                    <div class="logo-card-glow"></div>
+                    <div class="logo-card-ring"></div>
+                    <div class="logo-image">
+                        <img src="google.jpeg" alt="Logo Google">
+                    </div>
+                    <span class="logo-name">Google</span>
+                </div>
+
+                <div class="logo-card" data-name="Siemens">
+                    <div class="logo-card-glow"></div>
+                    <div class="logo-card-ring"></div>
+                    <div class="logo-image">
+                        <img src="siemens.png" alt="Logo Siemens">
+                    </div>
+                    <span class="logo-name">Siemens</span>
+                </div>
+
+                <div class="logo-card" data-name="Santander">
+                    <div class="logo-card-glow"></div>
+                    <div class="logo-card-ring"></div>
+                    <div class="logo-image">
+                        <img src="santander.jpeg" alt="Logo Santander">
+                    </div>
+                    <span class="logo-name">Santander</span>
+                </div>
+
+                <div class="logo-card" data-name="UNICEF">
+                    <div class="logo-card-glow"></div>
+                    <div class="logo-card-ring"></div>
+                    <div class="logo-image">
+                        <img src="unicef.png" alt="Logo UNICEF">
+                    </div>
+                    <span class="logo-name">UNICEF</span>
+                </div>
+
+                <div class="logo-card" data-name="Tesla">
+                    <div class="logo-card-glow"></div>
+                    <div class="logo-card-ring"></div>
+                    <div class="logo-image">
+                        <img src="tesla.png" alt="Logo Tesla">
+                    </div>
+                    <span class="logo-name">Tesla</span>
+                </div>
+
+                <div class="logo-card" data-name="Walmart">
+                    <div class="logo-card-glow"></div>
+                    <div class="logo-card-ring"></div>
+                    <div class="logo-image">
+                        <img src="wallmart.png" alt="Logo Walmart">
+                    </div>
+                    <span class="logo-name">Walmart</span>
+                </div>
+            </div>
+
+            <div class="decorative-footer">
+                <div class="decorative-glow"></div>
+                <p>"No vamos solos. Vamos con los mejores. Juntos, aceleramos la promesa de un futuro brillante y 100% sostenible."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 SOLAR MIND | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+/* ==== inicio: contenido completo de alianzas.js ==== */
+document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+    createDarkParticles();
+    setupScrollAnimations();
+    setupCardAnimations();
+    setupParallax();
+});
+
+function createParticles() {
+    const container = document.querySelector('.particles-container');
+    if (!container) return;
+    
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 2 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        container.appendChild(particle);
+    }
+}
+
+function createDarkParticles() {
+    const container = document.querySelector('.particles-dark-container');
+    if (!container) return;
+    
+    for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle-dark';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 600 + 'px';
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 3) + 's';
+        container.appendChild(particle);
+    }
+}
+
+function setupScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    const elements = document.querySelectorAll('.pilar-card, .impacto-card, .logo-card');
+    elements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+function setupCardAnimations() {
+    const cards = document.querySelectorAll('.pilar-card, .impacto-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-12px) rotate(-1deg)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) rotate(0)';
+        });
+    });
+    
+    const logos = document.querySelectorAll('.logo-card');
+    logos.forEach(logo => {
+        logo.addEventListener('mouseenter', function() {
+            const ripple = document.createElement('div');
+            ripple.style.position = 'absolute';
+            ripple.style.width = '100%';
+            ripple.style.height = '100%';
+            ripple.style.top = '0';
+            ripple.style.left = '0';
+            ripple.style.background = 'radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple-effect 0.6s ease-out';
+            ripple.style.pointerEvents = 'none';
+            ripple.style.borderRadius = getComputedStyle(logo).borderRadius || '8px';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+}
+
+function setupParallax() {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                const heroBg = document.querySelector('.hero-bg');
+                if (heroBg) {
+                    heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+                const blobs = document.querySelectorAll('.blob, .blob-dark');
+                blobs.forEach((blob, index) => {
+                    const speed = (index + 1) * 0.1;
+                    blob.style.transform = `translate(${Math.sin(scrolled * 0.001) * 50}px, ${scrolled * speed}px)`;
+                });
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+}
+
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple-effect {
+        from {
+            transform: scale(0);
+            opacity: 1;
+        }
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+const pauseAnimations = () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animationPlayState = 'running';
+            } else {
+                entry.target.style.animationPlayState = 'paused';
+            }
+        });
+    });
+    document.querySelectorAll('.blob, .blob-dark, .particle, .particle-dark').forEach(el => {
+        observer.observe(el);
+    });
+};
+
+pauseAnimations();
+
+console.log('🌞 SolarMind - Alianzas por el Planeta cargado correctamente');
+/* ==== fin: contenido de alianzas.js ==== */
+    </script>
+</body>
+</html>

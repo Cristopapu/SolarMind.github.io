@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLAR MIND - Carrito de Compras</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #FFA500;
+        }
+
+        /* Header */
+        .cart-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: white;
+        }
+
+        .cart-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Main Container */
+        .cart-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cart-item {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 1.5rem;
+            transition: 0.3s;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .cart-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .item-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #FFA500, #FF8C00);
+        }
+
+        .item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .item-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #f5f5f5;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+
+        .quantity-btn {
+            background: white;
+            border: 2px solid #FFA500;
+            color: #FFA500;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .quantity-btn:hover {
+            background: #FFA500;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .quantity {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .item-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FF0000;
+        }
+
+        .item-unit-price {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        /* Summary */
+        .cart-summary {
+            position: sticky;
+            top: 100px;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #eee;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .summary-row.total .price {
+            color: #FF0000;
+            font-size: 1.8rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.4);
+        }
+
+        .checkout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.6);
+        }
+
+        .benefits {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #eee;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .empty-cart-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-cart h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .empty-cart p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .shop-button {
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .shop-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer-section p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 2rem;
+        }
+
+        .social-links a {
+            color: white;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: relative;
+                top: 0;
+            }
+
+            .cart-item {
+                flex-direction: column;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .cart-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">☀️ SolarMind</a>
+            <a href="catalogo.html" class="back-button">
+                ← Volver al Catálogo
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="cart-header">
+        <h1>🛒 Tu Carrito</h1>
+        <p id="cartItemCount">0 productos en tu carrito</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="cart-container" id="cartContainer">
+        <!-- Content will be loaded by JavaScript -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>☀️ SolarMind</h3>
+                <p>Tu aliado en energía solar accesible y sustentable</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p>📧 info@solarmind.com</p>
+                <p>📱 +52 55 1234 5678</p>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">📷</a>
+                    <a href="#">🐦</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SOLAR MIND | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Lámpara Solar Básica",
+                description: "Ideal para hogares rurales o campamentos. Carga con el sol y brinda luz por 6 horas. Esta lámpara solar es perfecta para aquellos que buscan una solución de iluminación ecológica y económica.",
+                price: 320,
+                image: "Lamapara solar basica.jpg"
+            },
+            {
+                id: 2,
+                name: "Mini Panel Solar Educativo",
+                description: "Aprende cómo funciona la energía solar con este kit económico para estudiantes.",
+                price: 250,
+                image: "Panel educativo.jpg"
+            },
+            {
+                id: 3,
+                name: "Luz Solar de Jardín",
+                description: "Económica y decorativa. Se carga de día y se enciende automáticamente de noche.",
+                price: 185,
+                image: "Lampara jardin.jpg"
+            },
+            {
+                id: 4,
+                name: "Cargador Solar Portátil",
+                description: "Pequeño y práctico. Perfecto para cargar tu celular en zonas sin electricidad.",
+                price: 450,
+                image: "cargador solar.jpg"
+            },
+            {
+                id: 5,
+                name: "Linterna Solar Recargable",
+                description: "Alternativa económica para emergencias o cortes de luz. Sin pilas ni cables.",
+                price: 200,
+                image: "linterna.png"
+            },
+            {
+                id: 6,
+                name: "Panel Solar USB",
+                description: "Panel compacto para alimentar pequeños dispositivos. Bajo costo y alta utilidad.",
+                price: 550,
+                image: "panel usb.jpg"
+            },
+            {
+                id: 7,
+                name: "Mini Ventilador USB Solar",
+                description: "Mini ventilador de bajo consumo. Funciona conectado a tu panel USB.",
+                price: 130,
+                image: "https://i5.walmartimages.com/asr/bc83dc93-48e6-4a7e-a47e-63ea22708a32.35e35e4154082f19c5cdb765d0533e73.jpeg"
+            },
+            {
+                id: 8,
+                name: "Lámpara Solar Colgante",
+                description: "Solución sencilla y accesible para iluminar exteriores o pequeños talleres.",
+                price: 290,
+                image: "lampara colgante.jpg"
+            },
+            {
+                id: 9,
+                name: "Kit Solar para Camping",
+                description: "Kit completo con panel, batería y lámparas LED para campamentos.",
+                price: 890,
+                image: "kit de camping.jpg"
+            },
+            {
+                id: 10,
+                name: "Reflector Solar LED",
+                description: "Reflector potente con sensor de movimiento. Perfecto para seguridad.",
+                price: 680,
+                image: "reflector solar.jpg"
+            },
+            {
+                id: 11,
+                name: "Radio Solar Portátil",
+                description: "Radio AM/FM con carga solar y manivela. Ideal para emergencias.",
+                price: 420,
+                image: "radio solar.jpg"
+            },
+            {
+                id: 12,
+                name: "Bomba de Agua Solar",
+                description: "Bomba solar para fuentes o riego de jardín. Ecológica y eficiente.",
+                price: 590,
+                image: "bomba solar.jpeg"
+            },
+            {
+                id: 13,
+                name: "Mochila Solar con USB",
+                description: "Mochila con panel solar integrado para cargar dispositivos mientras caminas.",
+                price: 750,
+                image: "mochila solar.jpg"
+            },
+            {
+                id: 14,
+                name: "Calentador Solar Portátil",
+                description: "Calentador solar compacto para agua. Perfecto para duchas al aire libre.",
+                price: 1200,
+                image: "calentador solar.jpg"
+            },
+            {
+                id: 15,
+                name: "Lámpara Solar de Mesa",
+                description: "Lámpara decorativa con carga solar. Moderna y funcional.",
+                price: 340,
+                image: "lampara de mesa.jpeg"
+            }
+        ];
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const container = document.getElementById('cartContainer');
+            const itemCount = document.getElementById('cartItemCount');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h2>Tu carrito está vacío</h2>
+                        <p>¡Agrega productos solares y comienza a ahorrar energía!</p>
+                        <a href="catalogo.html" class="shop-button">Ver Catálogo</a>
+                    </div>
+                `;
+                itemCount.textContent = '0 productos en tu carrito';
+                return;
+            }
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            itemCount.textContent = `${totalItems} producto${totalItems !== 1 ? 's' : ''} en tu carrito`;
+
+            const cartItemsHTML = cart.map(item => {
+                const product = products.find(p => p.id === item.productId);
+                if (!product) return '';
+
+                return `
+                    <div class="cart-item">
+                        <img src="${product.image}" alt="${product.name}" class="item-image">
+                        <div class="item-details">
+                            <div>
+                                <div class="item-name">${product.name}</div>
+                                <div class="item-description">${product.description}</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="updateQuantity(${product.id}, -1)">-</button>
+                                    <span class="quantity">${item.quantity}</span>
+                                    <button class="quantity-btn" onclick="updateQuantity(${product.id}, 1)">+</button>
+                                </div>
+                                <div>
+                                    <div class="item-price">$${(product.price * item.quantity).toFixed(2)}</div>
+                                    <div class="item-unit-price">$${product.price.toFixed(2)} c/u</div>
+                                </div>
+                                <button class="remove-btn" onclick="removeItem(${product.id})">🗑️ Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const subtotal = cart.reduce((sum, item) => {
+                const product = products.find(p => p.id === item.productId);
+                return sum + (product.price * item.quantity);
+            }, 0);
+
+            const iva = subtotal * 0.16;
+            const total = subtotal + iva;
+
+            container.innerHTML = `
+                <div class="cart-items">
+                    ${cartItemsHTML}
+                </div>
+                <div class="cart-summary">
+                    <div class="summary-title">💳 Resumen de Compra</div>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>$${subtotal.toFixed(2)} MXN</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>IVA (16%):</span>
+                        <span>$${iva.toFixed(2)} MXN</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span class="price">$${total.toFixed(2)} MXN</span>
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">
+                        💳 Proceder al Pago
+                    </button>
+                    <div class="benefits">
+                        <div class="benefit-item">🔒 Pago 100% Seguro</div>
+                        <div class="benefit-item">🚚 Envío Gratis en pedidos +$1000</div>
+                        <div class="benefit-item">♻️ Productos Eco-Friendly</div>
+                        <div class="benefit-item">✅ Garantía de 1 año</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateQuantity(productId, change) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const itemIndex = cart.findIndex(item => item.productId === productId);
+            
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity = Math.max(1, cart[itemIndex].quantity + change);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCart();
+            }
+        }
+
+        function removeItem(productId) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const newCart = cart.filter(item => item.productId !== productId);
+            localStorage.setItem('cart', JSON.stringify(newCart));
+            loadCart();
+        }
+
+        function checkout() {
+            alert('¡Gracias por tu compra! Procesaremos tu pedido pronto. 🌟');
+            localStorage.removeItem('cart');
+            window.location.href = 'index.html';
+        }
+
+        loadCart();
+    </script>
+</body>
+</html>

@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SolarMind - Energía Solar Inteligente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* === LOADING SCREEN === */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 50%, #fbbf24 100%);
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            animation: pulse 1.5s ease-in-out infinite, rotate 2s linear infinite;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            position: absolute;
+            margin-top: 120px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1f2937;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            padding: 1.5rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .navbar-container:hover {
+            box-shadow: 0 25px 70px rgba(251, 191, 36, 0.3);
+        }
+
+        .navbar-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: transform 0.3s;
+        }
+
+        .navbar-logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-logo {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.5);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(10deg); }
+        }
+
+        .navbar-title {
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            color: white;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Mobile nav (new) */
+        .mobile-nav {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 0.5rem);
+            margin: 0 auto;
+            max-width: 420px;
+            width: calc(100% - 3rem);
+            background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(17,24,39,0.98));
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 60;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            transform-origin: top center;
+            animation: dropDown 0.28s cubic-bezier(.2,.9,.2,1);
+        }
+
+        @keyframes dropDown {
+            from { opacity: 0; transform: translateY(-10px) scaleY(0.98); }
+            to { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .mobile-nav .nav-btn {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 0.75rem;
+            text-align: left;
+            font-size: 1rem;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .mobile-nav .nav-btn:hover {
+            background: rgba(255,255,255,0.06);
+            transform: none;
+        }
+
+        /* === HERO CAROUSEL === */
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .particles-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(251, 191, 36, 0.4);
+            border-radius: 50%;
+            animation: floatParticle 20s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        .carousel-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: zoomPan 20s ease-in-out infinite;
+        }
+
+        @keyframes zoomPan {
+            0%, 100% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.1) translate(-20px, -10px); }
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+        }
+
+        .carousel-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .carousel-title {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            animation: titleGlow 3s ease-in-out infinite, slideUp 1s ease-out;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(251, 191, 36, 0.3), 0 4px 20px rgba(0, 0, 0, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(251, 191, 36, 0.6), 0 4px 20px rgba(0, 0, 0, 0.5); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .carousel-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+
+        .carousel-btn {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(251, 191, 36, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            background: rgba(251, 146, 60, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #fbbf24;
+            width: 3rem;
+            border-radius: 9999px;
+            box-shadow: 0 2px 15px rgba(251, 191, 36, 0.6);
+        }
+
+        .cta-btn {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            color: white;
+            font-weight: 700;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s ease-out 0.9s both;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: translateX(-100%);
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 50px rgba(251, 191, 36, 0.6);
+        }
+
+        .cta-btn:hover::before {
+            animation: shimmer 0.6s;
+        }
+
+        @keyframes shimmer {
+            to { transform: translateX(100%); }
+        }
+
+        /* === VISION SECTION === */
+        .vision-section {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(to bottom, #ffffff, #f9fafb);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .section-title.cyan {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.orange {
+            background: linear-gradient(90deg, #f97316, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title.dark {
+            color: #1f2937;
+        }
+
+        .section-title.white {
+            color: white;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 1.25rem;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-subtitle.dark {
+            color: #374151;
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .vision-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .vision-card:nth-child(1) { animation-delay: 0.2s; }
+        .vision-card:nth-child(2) { animation-delay: 0.4s; }
+        .vision-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .vision-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .vision-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 3px solid #06b6d4;
+            border-radius: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+
+        .vision-card:hover::before {
+            opacity: 1;
+        }
+
+        .vision-img-container {
+            position: relative;
+            height: 16rem;
+            overflow: hidden;
+        }
+
+        .vision-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .vision-card:hover img {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .vision-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .vision-card-content {
+            padding: 2rem;
+            position: relative;
+            background: white;
+            z-index: 2;
+        }
+
+        .vision-card h3 {
+            font-size: 1.75rem;
+            color: #06b6d4;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .vision-card:hover h3 {
+            transform: translateX(5px);
+        }
+
+        .vision-card p {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* === CONTENT VIEW === */
+        .content-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .content-section {
+            padding: 5rem 1.5rem;
+        }
+
+        .content-section.bg-gray {
+            background: #f9fafb;
+        }
+
+        .content-section.bg-orange {
+            background: #fff7ed;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 22rem;
+            object-fit: cover;
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-img:hover {
+            transform: scale(1.08) rotate(2deg);
+        }
+
+        .content-text h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #f97316;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .content-text p {
+            font-size: 1.15rem;
+            color: #374151;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* === FODA SECTION === */
+        .foda-section {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(135deg, #fffbeb, #fed7aa, #fef3c7);
+            text-align: center;
+        }
+
+        .foda-btn {
+            width: 14rem;
+            height: 14rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fde68a, #fb923c);
+            border: none;
+            font-size: 6rem;
+            cursor: pointer;
+            box-shadow: 0 20px 60px rgba(251, 146, 60, 0.5);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 2rem;
+            animation: floatBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .foda-btn:hover {
+            transform: translateY(-30px) scale(1.15);
+            box-shadow: 0 30px 80px rgba(251, 146, 60, 0.6);
+        }
+
+        /* === CHARACTERISTICS === */
+        .characteristics-section {
+            padding: 6rem 1.5rem;
+            background: white;
+        }
+
+        .characteristics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .char-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #f3f4f6;
+        }
+
+        .char-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), rgba(249, 115, 22, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .char-card:hover::before {
+            opacity: 1;
+        }
+
+        .char-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .char-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.6s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .char-card:hover .char-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+
+        .char-icon.blue { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+        .char-icon.orange { background: linear-gradient(135deg, #fbbf24, #f97316); }
+        .char-icon.green { background: linear-gradient(135deg, #4ade80, #10b981); }
+        .char-icon.purple { background: linear-gradient(135deg, #c084fc, #9333ea); }
+        .char-icon.pink { background: linear-gradient(135deg, #f472b6, #ec4899); }
+        .char-icon.cyan { background: linear-gradient(135deg, #22d3ee, #06b6d4); }
+
+        .char-card h3 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .char-card p {
+            color: #6b7280;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === PROCESS SECTION === */
+        .process-section {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(135deg, #fed7aa, #fde68a);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .process-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(249, 115, 22, 0.1));
+            border-radius: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .process-card:hover::before {
+            opacity: 1;
+        }
+
+        .process-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .process-number {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.5);
+            transition: transform 0.6s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-card:hover .process-number {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .process-card h3 {
+            font-size: 1.35rem;
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === STATS SECTION === */
+        .stats-section {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #f97316);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: rotatePulse 10s linear infinite;
+        }
+
+        @keyframes rotatePulse {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.1) translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            animation: numberGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes numberGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.8); }
+        }
+
+        .stat-label {
+            font-size: 1.5rem;
+            opacity: 0.95;
+        }
+
+        /* === CTA SECTION === */
+        .cta-section {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(to bottom, #111827, #000000);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-text {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            color: white;
+            font-weight: 700;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 9999px;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.5);
+            transition: all 0.3s;
+        }
+
+        .cta-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(251, 191, 36, 0.6);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            font-weight: 700;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            border: 2px solid white;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #1f2937;
+        }
+
+        /* === FOOTER === */
+        .footer {
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            color: white;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-logo {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #fef3c7;
+        }
+
+        /* === MODAL === */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, white, #fffbeb);
+            border-radius: 2rem;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            max-width: 70rem;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 3rem;
+            position: relative;
+            animation: modalSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: #fbbf24;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: #f59e0b;
+            transform: rotate(90deg);
+        }
+
+        .foda-emoji {
+            font-size: 5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .modal-content h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            color: #1f2937;
+            margin-bottom: 2.5rem;
+        }
+
+        .foda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .foda-card {
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .foda-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .foda-card.green {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .foda-card.blue {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        .foda-card.orange {
+            background: #fff7ed;
+            border-color: #fdba74;
+        }
+
+        .foda-card.red {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .foda-card h4 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .foda-card.green h4 { color: #15803d; }
+        .foda-card.blue h4 { color: #1d4ed8; }
+        .foda-card.orange h4 { color: #c2410c; }
+        .foda-card.red h4 { color: #b91c1c; }
+
+        .foda-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .foda-card li {
+            color: #374151;
+            padding: 0.5rem 0;
+            line-height: 1.6;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* === SIDE PANEL === */
+        .panel-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            z-index: 40;
+            animation: fadeIn 0.3s;
+        }
+
+        .side-panel {
+            position: fixed;
+            right: 1.5rem;
+            top: 5rem;
+            width: 90%;
+            max-width: 28rem;
+            height: 75vh;
+            z-index: 50;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 1.5rem;
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .panel-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            background: rgba(243, 244, 246, 0.8);
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .panel-close:hover {
+            background: rgba(209, 213, 219, 1);
+            transform: rotate(90deg);
+        }
+
+        .panel-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-right: 3rem;
+        }
+
+        .panel-content {
+            overflow-y: auto;
+            height: calc(100% - 4rem);
+            color: #374151;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .navbar-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .navbar-title {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-title {
+                display: none;
+            }
+
+            .carousel-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .stat-number {
+                font-size: 3rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .side-panel {
+                width: 95%;
+                right: 2.5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Cargando SolarMind...</div>
+    </div>
+
+    <!-- Carousel View (Home) -->
+    <div id="carousel-view" class="hidden">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo-container">
+                    <div class="navbar-logo">☀️</div>
+                    <span class="navbar-title">SolarMind</span>
+                </div>
+
+                <div class="navbar-menu" id="navbar-menu-desktop">
+                    <button onclick="openPanel('about')" class="nav-btn">QUIÉNES SOMOS</button>
+                    <button onclick="openPanel('partners')" class="nav-btn">SOCIOS</button>
+                    <button onclick="openPanel('catalog')" class="nav-btn">CATÁLOGO</button>
+                    <button onclick="openPanel('objective')" class="nav-btn">OBJETIVO</button>
+                </div>
+
+                <!-- Mobile menu button: ahora abre/cierra el menú móvil -->
+                <button id="mobile-menu-btn" class="mobile-menu-btn" aria-controls="mobile-nav" aria-expanded="false" onclick="toggleMobileMenu()">☰</button>
+
+                <!-- Mobile nav (visible en pantallas pequeñas) -->
+                <div id="mobile-nav" class="mobile-nav hidden" role="menu" aria-hidden="true" onclick="event.stopPropagation()">
+                    <button class="nav-btn" onclick="mobileNavAction('about')">QUIÉNES SOMOS</button>
+                    <button class="nav-btn" onclick="mobileNavAction('partners')">SOCIOS</button>
+                    <button class="nav-btn" onclick="mobileNavAction('catalog')">CATÁLOGO</button>
+                    <button class="nav-btn" onclick="mobileNavAction('objective')">OBJETIVO</button>
+                    <hr style="border:0;border-top:1px solid rgba(255,255,255,0.06);margin:0.5rem 0;">
+                    <button class="nav-btn" onclick="mobileNavAction('contact')">CONTACTO</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Carousel -->
+        <section class="hero-carousel">
+            <div class="particles-container" id="particles"></div>
+            <div class="carousel-bg" id="carousel-bg"></div>
+            <div class="carousel-overlay"></div>
+            <div class="carousel-content">
+                <h1 class="carousel-title" id="carousel-title">Encendiendo el futuro con la energía del sol</h1>
+                <p class="carousel-subtitle" id="carousel-subtitle">Transformamos cada rayo en esperanza y progreso</p>
+                
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="prevSlide()">‹</button>
+                    <div class="carousel-dots" id="carousel-dots"></div>
+                    <button class="carousel-btn" onclick="nextSlide()">›</button>
+                </div>
+
+                <button class="cta-btn" onclick="goToContent()">Conoce más de nosotros</button>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section class="vision-section">
+            <h2 class="section-title cyan">NUESTRA VISIÓN: ENERGÍA INTELIGENTE PARA UN FUTURO BRILLANTE</h2>
+            <p class="section-subtitle">Impulsamos la transición energética ofreciendo soluciones solares que se traducen en ahorro real para ti y un impacto positivo para el planeta.</p>
+            
+            <div class="vision-grid">
+                <div class="vision-card">
+                    <div class="vision-img-container">
+                        <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80" alt="Innovación">
+                        <div class="vision-overlay"></div>
+                    </div>
+                    <div class="vision-card-content">
+                        <h3>INNOVACIÓN SOLAR INTELIGENTE</h3>
+                        <p>Transformamos la luz del sol en tu mayor aliado financiero. Ofrecemos soluciones fotovoltaicas de última generación, diseñadas para maximizar la eficiencia y garantizar el mayor ahorro para tu hogar, comunidad o negocio.</p>
+                    </div>
+                </div>
+                <div class="vision-card">
+                    <div class="vision-img-container">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80" alt="Compromiso">
+                        <div class="vision-overlay"></div>
+                    </div>
+                    <div class="vision-card-content">
+                        <h3>COMPROMISO REAL CON EL PLANETA</h3>
+                        <p>Tu inversión en energía solar es un voto por la sostenibilidad. Cada instalación de SolarMind garantiza una reducción activa de tu huella de carbono, impulsando un modelo energético limpio, renovable y totalmente responsable con la Tierra.</p>
+                    </div>
+                </div>
+                <div class="vision-card">
+                    <div class="vision-img-container">
+                        <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=800&q=80" alt="Futuro">
+                        <div class="vision-overlay"></div>
+                    </div>
+                    <div class="vision-card-content">
+                        <h3>ENERGÍA PARA LAS PRÓXIMAS GENERACIONES</h3>
+                        <p>Asegura la independencia y estabilidad energética. Más que tecnología limpia, te proporcionamos una fuente de energía inagotable, duradera y confiable, lista para respaldar tu consumo hoy y garantizar la autonomía energética del futuro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">☀️</div>
+                    <span>SolarMind</span>
+                </div>
+                <p>© 2025 SOLAR MIND | Todos los derechos reservados</p>
+                <div class="footer-links">
+                    <a href="#">Privacidad</a>
+                    <a href="#">Términos</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Content View -->
+    <div id="content-view" class="hidden">
+        <!-- Header -->
+        <header class="content-header">
+            <button onclick="returnToCarousel()" class="back-btn">←</button>
+            <div class="footer-logo">☀️</div>
+            <span style="color: white; font-weight: 700; font-size: 1.25rem;">SolarMind</span>
+        </header>
+
+        <!-- Sección 1: Misión -->
+        <section class="content-section bg-gray">
+            <div class="content-grid">
+                <img src="https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=800&q=80" alt="Misión" class="content-img">
+                <div class="content-text">
+                    <h2>NUESTRA MISIÓN: EMPODERAR AL MUNDO CON ENERGÍA LIMPIA</h2>
+                    <p>En SolarMind, nuestra creencia es inquebrantable: la energía debe ser sinónimo de progreso y bienestar. Nuestra misión fundamental es democratizar las soluciones solares, haciéndolas accesibles, confiables y sostenibles.</p>
+                    <p>Cada instalación que realizamos es un paso deliberado para transformar vidas, impulsar el desarrollo económico y llevar esperanza a cada comunidad. Nos impulsa la tecnología, nos guía la conciencia social.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Innovación -->
+        <section class="content-section bg-orange">
+            <div class="content-grid">
+                <div class="content-text">
+                    <h2>INNOVACIÓN INTELIGENTE PARA CADA ENTORNO</h2>
+                    <p>Lideramos la tecnología solar con diseños inteligentes que no solo capturan la luz, sino que la optimizan en tiempo real. Integramos sensores, monitoreo remoto y sistemas de almacenamiento de última generación para garantizar que tu sistema se adapte y rinda al máximo, ya sea en el ámbito rural o urbano.</p>
+                    <p>No vendemos paneles, creamos ecosistemas energéticos eficientes y duraderos en colaboración con expertos y universidades, protegiendo la Tierra y mejorando tu calidad de vida.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80" alt="Innovación" class="content-img">
+            </div>
+        </section>
+
+        <!-- Sección 3: Eficiencia -->
+        <section class="content-section bg-gray">
+            <div class="content-grid">
+                <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80" alt="Eficiencia" class="content-img">
+                <div class="content-text">
+                    <h2>EFICIENCIA ENERGÉTICA MÁXIMA = AHORRO GARANTIZADO</h2>
+                    <p>Nuestros sistemas solares no solo prometen, garantizan el máximo rendimiento para tu inversión. Al combinar tecnología avanzada con materiales ultraduraderos, optimizamos cada vatio de producción y minimizamos las pérdidas eléctricas.</p>
+                    <p>La eficiencia es nuestra brújula, logrando el equilibrio perfecto: reducir tus costos operativos y facturas, disminuir drásticamente las emisiones y asegurar tu camino hacia una sostenibilidad económica real.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Educación -->
+        <section class="content-section bg-orange">
+            <div class="content-grid">
+                <div class="content-text">
+                    <h2>EMPODERANDO A TRAVÉS DEL CONOCIMIENTO</h2>
+                    <p>En SolarMind, la luz es nuestra herramienta, y el conocimiento es nuestro motor de cambio. Creemos firmemente que la única forma de garantizar un futuro sostenible es empoderando a las comunidades que lo habitarán. Por ello, invertimos en programas educativos activos sobre energías limpias.</p>
+                    <p>Fomentamos la participación de jóvenes, docentes y emprendedores, construyendo una cultura de sostenibilidad donde cada persona comprende y aprovecha el valor transformador de la energía renovable para su entorno local. Tu elección nos permite educar.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80" alt="Educación" class="content-img">
+            </div>
+        </section>
+
+        <!-- Sección 5: Futuro -->
+        <section class="content-section bg-gray">
+            <div class="content-grid">
+                <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80" alt="Futuro" class="content-img">
+                <div class="content-text">
+                    <h2>SOÑAMOS EN GRANDE. ACTUAMOS HOY.</h2>
+                    <p>Visualizamos un mañana donde la energía limpia no es un lujo, sino un derecho universal. A través de nuestras audaces iniciativas, no solo instalamos tecnología, sino que inspiramos un cambio global, motivando a líderes, empresas y ciudadanos a adoptar modelos de consumo responsables y ecológicos.</p>
+                    <p>Con SolarMind, cada decisión es un paso firme hacia un futuro más justo, brillante y totalmente conectado con la naturaleza.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FODA Section -->
+        <section class="foda-section">
+            <h2 class="section-title orange">ANÁLISIS ESTRATÉGICO: NUESTRA POSICIÓN EN EL MERCADO</h2>
+            <p class="section-subtitle dark">Transparencia en nuestro liderazgo: Conozca la base de nuestra estrategia y visión a largo plazo.</p>
+            <button class="foda-btn" onclick="openFodaModal()">📊</button>
+        </section>
+
+        <!-- Características -->
+        <section class="characteristics-section">
+            <h2 class="section-title dark">¿Por qué elegir SolarMind?</h2>
+            <p class="section-subtitle">Somos más que un proveedor; somos tu aliado estratégico y experto en la transición hacia la independencia energética y la sostenibilidad.</p>
+            
+            <div class="characteristics-grid">
+                <div class="char-card">
+                    <div class="char-icon blue">🛡️</div>
+                    <h3>25 Años de Respaldo Global.</h3>
+                    <p>Te ofrecemos la seguridad que mereces con una garantía líder de 25 años en rendimiento de paneles. Trabajamos solo con proveedores de clase mundial, asegurando que tu inversión esté blindada y respaldada por estándares internacionales.</p>
+                </div>
+                <div class="char-card">
+                    <div class="char-icon orange">🏆</div>
+                    <h3>Calidad y Cumplimiento, Sin Compromisos.</h3>
+                    <p>Todas nuestras soluciones cumplen rigurosamente con la certificación ISO 9001 y las normas internacionales más estrictas de calidad energética. Esto significa tranquilidad para ti y la certeza de que tu sistema opera bajo los más altos estándares de la industria.</p>
+                </div>
+                <div class="char-card">
+                    <div class="char-icon green">👥</div>
+                    <h3>Trayectoria que Genera Confianza.</h3>
+                    <p>Con más de 5,000 instalaciones exitosas, nuestra experiencia es tu mejor garantía. Hemos resuelto los desafíos de miles de clientes, lo que nos permite ofrecerte procesos probados y la confiabilidad de un equipo que sabe lo que hace.</p>
+                </div>
+                <div class="char-card">
+                    <div class="char-icon purple">⚡</div>
+                    <h3>Tecnología Inteligente, Rendimiento Insuperable.</h3>
+                    <p>Te equipamos con la vanguardia mundial en sistemas solares. Nuestros paneles y equipos incluyen monitoreo inteligente en tiempo real que ajusta la producción, asegurando la máxima eficiencia, durabilidad y un rendimiento energético a prueba de futuro.</p>
+                </div>
+                <div class="char-card">
+                    <div class="char-icon pink">🎯</div>
+                    <h3>Diseño Único para tu Tranquilidad.</h3>
+                    <p>Olvídate de soluciones genéricas. Nuestros expertos en ingeniería solar realizan un análisis detallado para diseñar un sistema perfectamente adaptado a tu consumo, tu espacio y tu presupuesto. Te ofrecemos un sistema que es perfecto para ti.</p>
+                </div>
+                <div class="char-card">
+                    <div class="char-icon cyan">📈</div>
+                    <h3>Tu Máximo Ahorro, Nuestro Compromiso.</h3>
+                    <p>Nuestro objetivo es simple: reducir hasta el 70% de tu gasto eléctrico. Te garantizamos un alivio financiero inmediato y un rápido retorno de inversión, haciendo que el sol trabaje por tu economía desde el día uno.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proceso -->
+        <section class="process-section">
+            <h2 class="section-title orange">NUESTRO PROCESO</h2>
+            <p class="section-subtitle dark">Tu traspaso a la energía solar en 4 pasos simples y transparentes</p>
+            
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-number">1</div>
+                    <h3>Consulta y Diagnóstico Gratuito</h3>
+                    <p>Evaluamos tu consumo actual, analizamos las condiciones de tu espacio y te entregamos una proyección de ahorro sin compromiso.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">2</div>
+                    <h3>Diseño a la Medida y Optimización</h3>
+                    <p>Nuestros ingenieros diseñan un sistema único para tu consumo, maximizando el rendimiento y asegurando la mejor estética para tu propiedad.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">3</div>
+                    <h3>Instalación Rápida y Certificada</h3>
+                    <p>Nuestro equipo técnico experto realiza la instalación bajo los más altos estándares de seguridad y calidad, garantizando el perfecto funcionamiento.</p>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">4</div>
+                    <h3>Activación y Monitoreo 24/7</h3>
+                    <p>Activamos tu sistema y te proporcionamos una plataforma para que observes tu producción en tiempo real. Tu ahorro está siempre bajo control.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats-section">
+            <h2 class="section-title white">Impacto Real en Números</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">5K+</div>
+                    <div class="stat-label">Instalaciones</div>
+                    <p>+5,000 Hogares y Empresas Transformadas</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">70%</div>
+                    <div class="stat-label">Ahorro Promedio</div>
+                    <p>Hasta 70% Reducción de Factura Eléctrica</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">25</div>
+                    <div class="stat-label">Años Garantía</div>
+                    <p>25 Años Garantía Total Certificada</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Satisfacción</div>
+                    <p>100% Compromiso de Satisfacción</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <h2 class="cta-title">¡COMIENZA HOY TU TRANSFORMACIÓN ENERGÉTICA! 🌞</h2>
+            <p class="cta-text">No esperes más. Únete a las +5,000 familias y empresas que ya están generando su propia energía, ahorrando significativamente y construyendo un futuro más limpio.</p>
+            <div class="cta-buttons">
+                <button onclick="openPanel('plan')" class="nav-btn">Plan comunitario</button>
+                <button onclick="openPanel('donar')" class="nav-btn">O si no dona</button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">☀️</div>
+                    <span>SolarMind</span>
+                </div>
+                <p>© 2025 SOLAR MIND | Todos los derechos reservados</p>
+                <div class="footer-links">
+                    <a href="#">Privacidad</a>
+                    <a href="#">Términos</a>
+                    <a href="#">Contacto</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Side Panel -->
+    <div id="panel-backdrop" class="panel-backdrop hidden" onclick="closePanel()"></div>
+    <aside id="side-panel" class="side-panel hidden" onclick="event.stopPropagation()">
+        <button class="panel-close" onclick="closePanel()">✕</button>
+        <h3 id="panel-title" class="panel-title"></h3>
+        <div id="panel-content" class="panel-content"></div>
+    </aside>
+
+    <!-- FODA Modal -->
+    <div id="foda-modal" class="modal-backdrop hidden" onclick="closeFodaModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeFodaModal()">✕</button>
+            <div class="foda-emoji">📊</div>
+            <h2>Análisis FODA</h2>
+            <div class="foda-grid">
+                <div class="foda-card green">
+                    <h4><span>💪</span> Fortalezas</h4>
+                    <ul>
+                        <li><span>✓</span> <span>Liderazgo Tecnológico Certificado: Implementamos exclusivamente tecnología de vanguardia, respaldada por certificaciones internacionales, garantizando máxima eficiencia y seguridad en cada proyecto.</span></li>
+                        <li><span>✓</span> <span>Equipo Humano Imbatible (+10 años): Contamos con un staff de ingenieros y técnicos especializados, con más de una década de experiencia comprobada, minimizando riesgos y asegurando la excelencia en la ejecución.</span></li>
+                        <li><span>✓</span> <span>Cadena de Suministro Global: Acceso directo a una robusta red de proveedores internacionales premium, asegurando la calidad de los componentes y la estabilidad en la entrega.</span></li>
+                        <li><span>✓</span> <span>Compromiso Post-Venta 24/7: Nuestro servicio integral de mantenimiento y soporte garantiza el rendimiento continuo y la longevidad de su sistema.</span></li>
+                    </ul>
+                </div>
+                <div class="foda-card blue">
+                    <h4><span>🌟</span> Oportunidades</h4>
+                    <ul>
+                        <li><span>✓</span> <span>Demanda en Crecimiento Acelerado: El mercado de energías renovables está en expansión constante, lo que nos permite escalar nuestras soluciones y maximizar el valor para nuestros socios y clientes.</span></li>
+                        <li><span>✓</span> <span>Marco Regulatorio Favorable: Existencia de incentivos fiscales y programas gubernamentales que hacen la transición solar más accesible y rentable para el usuario final.</span></li>
+                        <li><span>✓</span> <span>Shift Cultural hacia la Sostenibilidad: La creciente conciencia social y ambiental impulsa la adopción de soluciones ecológicas como un estándar de vida.</span></li>
+                        <li><span>✓</span> <span>Optimización del Costo Tecnológico: La tendencia a la baja en los costos de los componentes nos permite ofrecer soluciones más asequibles y aumentar la rentabilidad de la inversión.</span></li>
+                    </ul>
+                </div>
+                <div class="foda-card orange">
+                    <h4><span>⚠️</span> Debilidades</h4>
+                    <ul>
+                        <li><span>•</span> <span>Requerimiento de Capital Inicial: La inversión inicial es considerable, por lo que ofrecemos diversas opciones de financiamiento y asesoría para transformar este costo en un activo rentable a largo plazo.</span></li>
+                        <li><span>•</span> <span>Fluctuaciones de Producción: Reconocemos la dependencia de las condiciones climáticas. Mitigamos este factor a través de tecnología de optimización y diseños que maximizan la captación incluso en días nublados.</span></li>
+                        <li><span>•</span> <span>Limitación de Espacio: La instalación requiere espacio adecuado. Nuestro equipo evalúa la viabilidad estructural antes de comprometerse, asegurando un diseño eficiente para techos o terrenos existentes.</span></li>
+                        <li><span>•</span> <span>Plazo de Retorno (ROI): El retorno de la inversión tiene un plazo definido. Lo transparentamos y aceleramos mediante sistemas de alta eficiencia para que el ahorro comience lo antes posible.</span></li>
+                    </ul>
+                </div>
+                <div class="foda-card red">
+                    <h4><span>⚡</span> Amenazas</h4>
+                    <ul>
+                        <li><span>•</span> <span>Estrategia ante la Competencia: La competencia es alta, pero mantenemos el liderazgo invirtiendo constantemente en capacitación, servicio al cliente y diferenciación tecnológica.</span></li>
+                        <li><span>•</span> <span>Adaptación Regulatoria: Vigilancia continua de los cambios en políticas y normativas. Nuestra flexibilidad nos permite adaptarnos rápidamente a cualquier nuevo marco energético.</span></li>
+                        <li><span>•</span> <span>Gestión de Costos de Componentes: Las variaciones en precios de materiales son una realidad. Mitigamos esto a través de contratos de volumen y nuestra sólida red internacional de proveedores.</span></li>
+                        <li><span>•</span> <span>Preparación para la Disrupción: El sector evoluciona rápido. Mantenemos equipos dedicados a la investigación e integración de tecnologías emergentes para estar siempre un paso adelante.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== CAROUSEL DATA ==========
+        const slides = [
+            {
+                img: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80',
+                title: 'Encendiendo el futuro con la energía del sol',
+                subtitle: 'Transformamos cada rayo en esperanza y progreso'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80',
+                title: 'Cada rayo cuenta: ilumina vidas',
+                subtitle: 'Soluciones sustentables para un mundo mejor'
+            },
+            {
+                img: 'https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1920&q=80',
+                title: 'El sol es gratuito, la esperanza también',
+                subtitle: 'Energía limpia al alcance de todos'
+            }
+        ];
+
+        let currentSlide = 0;
+        let carouselInterval;
+
+        // ========== INIT ==========
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('carousel-view').classList.remove('hidden');
+                initCarousel();
+                createParticles();
+            }, 1500);
+        });
+
+        // ========== PARTICLES ==========
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const tx = (Math.random() - 0.5) * window.innerWidth;
+                const ty = (Math.random() - 0.5) * window.innerHeight;
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // ========== CAROUSEL ==========
+        function initCarousel() {
+            const dotsContainer = document.getElementById('carousel-dots');
+            if (!dotsContainer) return;
+            
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+            
+            updateCarousel();
+            startCarousel();
+        }
+
+        function updateCarousel() {
+            const bg = document.getElementById('carousel-bg');
+            const title = document.getElementById('carousel-title');
+            const subtitle = document.getElementById('carousel-subtitle');
+            
+            if (bg) {
+                bg.style.backgroundImage = `url('${slides[currentSlide].img}')`;
+            }
+            if (title) title.textContent = slides[currentSlide].title;
+            if (subtitle) subtitle.textContent = slides[currentSlide].subtitle;
+            
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+            startCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+            startCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+            startCarousel();
+        }
+
+        function startCarousel() {
+            clearInterval(carouselInterval);
+            carouselInterval = setInterval(nextSlide, 6000);
+        }
+
+        // ========== NAVIGATION ==========
+        function goToContent() {
+            document.getElementById('carousel-view').classList.add('hidden');
+            document.getElementById('content-view').classList.remove('hidden');
+            closePanel();
+            closeMobileMenu();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function returnToCarousel() {
+            document.getElementById('content-view').classList.add('hidden');
+            document.getElementById('carousel-view').classList.remove('hidden');
+            closeFodaModal();
+            closeMobileMenu();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== PANELS ==========
+        const panels = {
+          about: {
+            title: 'Quiénes Somos',
+            content: `<p style="color:#374151; line-height:1.7;">
+                       En SolarMind, no solo somos una empresa de energía solar:
+                       somos los arquitectos de una nueva era sostenible. Nacimos 
+                       hace más de diez años con la firme convicción de que el sol 
+                       es un recurso inagotable que debe estar al servicio de todos.
+                       Hemos trascendido la simple instalación para convertirnos en 
+                       líderes en soluciones solares inteligentes. Para ti, esto 
+                       significa que transformamos esa luz gratuita en ahorro exponencial, 
+                       seguridad energética y la certeza de estar invirtiendo en un 
+                       legado verde.Somos tu socio experto para desatar el poder del sol.
+                      </p>`
+          },
+
+          objective: {
+            title: 'Objetivo',
+            content: 'agenda2030.html',
+            useRedirect: true,
+            openInNewTab: false
+          },
+
+          partners: {
+            title: 'Socios / Alianzas',
+            content: 'alianzas.html',
+            useRedirect: true,
+            openInNewTab: false
+          },
+
+          catalog: {
+            title: 'Catálogo Energy',
+            content: 'catalogo.html',
+            useRedirect: true,
+            openInNewTab: false
+          },
+
+          // NUEVA VARIABLE: plan (redirecciona a un archivo local con información del plan/comunidad)
+          plan: {
+            title: 'Plan Comunitario',
+            content: 'educacion.html',
+            useRedirect: true,
+            openInNewTab: false
+          },
+
+          // NUEVA VARIABLE: donar (redirecciona a la página de donaciones)
+          donar: {
+            title: 'Donaciones',
+            content: 'https://energybin.com/donations',
+            useRedirect: true,
+            openInNewTab: true
+          },
+
+          contact: {
+            title: 'Contacto',
+            content: `<p style="color:#374151; line-height:1.7;">
+                        📧 info@solarmind.com<br>📞 +1 (555) 123-4567<br>📍 Av. Solar 123, Ciudad
+                      </p>`
+          }
+        };
+
+        function openPanel(type) {
+          const data = panels[type];
+          if (!data) {
+            console.warn(`openPanel: tipo desconocido "${type}"`);
+            return;
+          }
+
+          // Redirección si está configurada
+          if (data.useRedirect) {
+            if (!data.content || typeof data.content !== 'string') {
+              console.error('openPanel: ruta inválida para redirección');
+              return;
+            }
+
+            if (data.openInNewTab) {
+              // seguridad: noopener y noreferrer
+              window.open(data.content, '_blank', 'noopener,noreferrer');
+            } else {
+              window.location.href = data.content;
+            }
+            return;
+          }
+
+          // Mostrar contenido inline en panel lateral
+          const titleEl = document.getElementById('panel-title');
+          const contentEl = document.getElementById('panel-content');
+          const backdrop = document.getElementById('panel-backdrop');
+          const sidePanel = document.getElementById('side-panel');
+
+          if (!titleEl || !contentEl) {
+            console.error('openPanel: elementos del DOM no encontrados (panel-title / panel-content)');
+            return;
+          }
+
+          titleEl.textContent = data.title || '';
+          contentEl.innerHTML = data.content || '';
+
+          if (backdrop) backdrop.classList.remove('hidden');
+          if (sidePanel) sidePanel.classList.remove('hidden');
+
+          // opcional: bloquear scroll del body mientras el panel esté abierto
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closePanel() {
+          const backdrop = document.getElementById('panel-backdrop');
+          const side = document.getElementById('side-panel');
+          if (backdrop) backdrop.classList.add('hidden');
+          if (side) side.classList.add('hidden');
+
+          // restaurar scroll
+          document.body.style.overflow = 'auto';
+        }
+
+        // ========== FODA MODAL ==========
+        function openFodaModal() {
+          const modal = document.getElementById('foda-modal');
+          if (!modal) return;
+          modal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeFodaModal() {
+          const modal = document.getElementById('foda-modal');
+          if (!modal) return;
+          modal.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+
+        // ========== MOBILE NAV FUNCTIONS ==========
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mobile-nav');
+            const btn = document.getElementById('mobile-menu-btn');
+            if (!nav || !btn) return;
+            const isHidden = nav.classList.contains('hidden');
+            if (isHidden) openMobileMenu();
+            else closeMobileMenu();
+        }
+
+        function openMobileMenu() {
+            const nav = document.getElementById('mobile-nav');
+            const btn = document.getElementById('mobile-menu-btn');
+            if (!nav || !btn) return;
+            nav.classList.remove('hidden');
+            nav.setAttribute('aria-hidden', 'false');
+            btn.setAttribute('aria-expanded', 'true');
+            // block background scroll for mobile menu
+            document.body.style.overflow = 'hidden';
+            // close panels/modal to avoid overlap
+            closePanel();
+            closeFodaModal();
+        }
+
+        function closeMobileMenu() {
+            const nav = document.getElementById('mobile-nav');
+            const btn = document.getElementById('mobile-menu-btn');
+            if (!nav || !btn) return;
+            nav.classList.add('hidden');
+            nav.setAttribute('aria-hidden', 'true');
+            btn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Called when tapping a mobile menu item:
+        function mobileNavAction(type) {
+            // Close mobile menu first for a smooth UX
+            closeMobileMenu();
+            // Small timeout so the user sees the close animation
+            setTimeout(() => {
+                // If panel requires redirect, openPanel will handle it
+                if (type === 'about' || type === 'contact') {
+                    // open as side panel (inline)
+                    openPanel(type);
+                } else {
+                    openPanel(type);
+                }
+            }, 150);
+        }
+
+        // Close mobile menu if user taps outside of the navbar/mobile nav
+        document.addEventListener('click', (e) => {
+            const nav = document.getElementById('mobile-nav');
+            const btn = document.getElementById('mobile-menu-btn');
+            if (!nav || !btn) return;
+            // if nav is visible and the click target is outside navbar-container, close
+            if (!nav.classList.contains('hidden')) {
+                const navbarContainer = document.querySelector('.navbar-container');
+                if (navbarContainer && !navbarContainer.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Ensure mobile menu closes on resize to desktop
+        window.addEventListener('resize', () => {
+            const w = window.innerWidth;
+            if (w > 1024) {
+                // desktop view: ensure mobile menu closed and body scroll restored
+                closeMobileMenu();
+            }
+        });
+
+        // ========== ESC KEY ==========
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            closeFodaModal();
+            closePanel();
+            closeMobileMenu();
+          }
+        });
+    </script>
+</body>
+</html>

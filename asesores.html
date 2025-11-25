@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarMind - Hablar con un Asesor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn-back {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .header-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 20px 50px rgba(249, 115, 22, 0.4);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Asesores Grid */
+        .asesores-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .asesor-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .asesor-card:hover {
+            transform: translateY(-10px);
+            border-color: #f97316;
+            box-shadow: 0 20px 50px rgba(249, 115, 22, 0.2);
+        }
+
+        .asesor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 4px solid #f97316;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .asesor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .asesor-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .asesor-role {
+            color: #f97316;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .asesor-specialty {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asesor-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asesor-status.online {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        .asesor-status.busy {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.online {
+            background: #4ade80;
+        }
+
+        .status-dot.busy {
+            background: #fbbf24;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .asesor-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-action {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: none;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #20bd5a;
+            transform: scale(1.05);
+        }
+
+        .btn-call {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-call:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Contact Options */
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .contact-card:hover {
+            transform: translateX(10px);
+            border-color: #f97316;
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .contact-icon.phone {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .contact-icon.email {
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+        }
+
+        .contact-icon.whatsapp {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+        }
+
+        .contact-icon.calendar {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .contact-info h3 {
+            color: white;
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info span {
+            color: #f97316;
+            font-weight: 600;
+        }
+
+        /* Schedule */
+        .schedule-section {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .schedule-section h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .schedule-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .schedule-item h4 {
+            color: white;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .schedule-item p {
+            color: #4ade80;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 3rem;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .asesores-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .asesores-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 2rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .asesor-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">☀️ SolarMind</a>
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                Regresar
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <h1>Habla con un Asesor</h1>
+            <p>Nuestro equipo de expertos está listo para ayudarte a encontrar la solución solar perfecta</p>
+        </div>
+
+        <!-- Asesores Grid -->
+        <div class="asesores-grid">
+            <div class="asesor-card">
+                <div class="asesor-avatar">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop" alt="Carlos">
+                </div>
+                <div class="asesor-name">Carlos Mendoza</div>
+                <div class="asesor-role">Asesor Senior</div>
+                <div class="asesor-specialty">Especialista en Empresas</div>
+                <div class="asesor-status online">
+                    <span class="status-dot online"></span>
+                    Disponible ahora
+                </div>
+                <div class="asesor-actions">
+                    <a href="https://wa.me/5215512345678?text=Hola%20Carlos,%20me%20interesa%20información%20sobre%20paneles%20solares" class="btn-action btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                    <a href="tel:+5215512345678" class="btn-action btn-call">
+                        <i class="fas fa-phone"></i>
+                        Llamar
+                    </a>
+                </div>
+            </div>
+
+            <div class="asesor-card">
+                <div class="asesor-avatar">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop" alt="Ana">
+                </div>
+                <div class="asesor-name">Ana García</div>
+                <div class="asesor-role">Asesora de Hogares</div>
+                <div class="asesor-specialty">Especialista Residencial</div>
+                <div class="asesor-status online">
+                    <span class="status-dot online"></span>
+                    Disponible ahora
+                </div>
+                <div class="asesor-actions">
+                    <a href="https://wa.me/5215512345679?text=Hola%20Ana,%20me%20interesa%20información%20sobre%20paneles%20solares%20para%20mi%20hogar" class="btn-action btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                    <a href="tel:+5215512345679" class="btn-action btn-call">
+                        <i class="fas fa-phone"></i>
+                        Llamar
+                    </a>
+                </div>
+            </div>
+
+            <div class="asesor-card">
+                <div class="asesor-avatar">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop" alt="Roberto">
+                </div>
+                <div class="asesor-name">Roberto Silva</div>
+                <div class="asesor-role">Asesor Técnico</div>
+                <div class="asesor-specialty">Instalaciones y Soporte</div>
+                <div class="asesor-status busy">
+                    <span class="status-dot busy"></span>
+                    En llamada
+                </div>
+                <div class="asesor-actions">
+                    <a href="https://wa.me/5215512345680?text=Hola%20Roberto,%20necesito%20asesoría%20técnica" class="btn-action btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                    <a href="tel:+5215512345680" class="btn-action btn-call">
+                        <i class="fas fa-phone"></i>
+                        Llamar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Options -->
+        <div class="contact-options">
+            <a href="tel:+525512345678" class="contact-card">
+                <div class="contact-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="contact-info">
+                    <h3>Llámanos</h3>
+                    <p>Línea directa de atención</p>
+                    <span>+52 55 1234 5678</span>
+                </div>
+            </a>
+
+            <a href="mailto:asesores@solarmind.com" class="contact-card">
+                <div class="contact-icon email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-info">
+                    <h3>Email</h3>
+                    <p>Respuesta en menos de 24h</p>
+                    <span>asesores@solarmind.com</span>
+                </div>
+            </a>
+
+            <a href="https://wa.me/525512345678" class="contact-card" target="_blank">
+                <div class="contact-icon whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="contact-info">
+                    <h3>WhatsApp General</h3>
+                    <p>Chat directo con soporte</p>
+                    <span>Iniciar conversación</span>
+                </div>
+            </a>
+
+            <a href="#" class="contact-card" onclick="alert('Próximamente podrás agendar citas en línea')">
+                <div class="contact-icon calendar">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="contact-info">
+                    <h3>Agendar Cita</h3>
+                    <p>Visita técnica gratuita</p>
+                    <span>Reservar horario</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Schedule -->
+        <div class="schedule-section">
+            <h2><i class="fas fa-clock"></i> Horario de Atención</h2>
+            <div class="schedule-grid">
+                <div class="schedule-item">
+                    <h4>Lunes - Viernes</h4>
+                    <p>9:00 AM - 7:00 PM</p>
+                </div>
+                <div class="schedule-item">
+                    <h4>Sábados</h4>
+                    <p>10:00 AM - 3:00 PM</p>
+                </div>
+                <div class="schedule-item">
+                    <h4>Domingos</h4>
+                    <p>Cerrado</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SolarMind. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Animaciones al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.asesor-card, .contact-card');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
