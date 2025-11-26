@@ -1,63 +1,22 @@
-// catalogo.js (actualizado) - añade selector de método de pago y sincronización con localStorage
+// catalogo.js (actualizado) - añade selector de método de pago responsive (dropdown en desktop / bottom-sheet en móvil)
 
 // Productos data
 const products = [
-    {
-        id: 1,
-        name: "Lámpara Solar Básica",
-        description: "Ideal para hogares rurales o campamentos. Carga con el sol y brinda luz por 6 horas.",
-        price: 320,
-        image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQxJ_FeVzlcWjo8-B10kaQ1qLyDRZ4vZ2yK_1WyAeeIz8qY8kDZIR1OX5YWiGrkj_7BI2CgcHMV2b-kd36w_0HA3PuHI6vSd0v2k2JZHdOoh4r6eR4LHaJBrR8UL95qLLX3dKepg0A&usqp=CAc"
-    },
-    {
-        id: 2,
-        name: "Mini Panel Solar Educativo",
-        description: "Aprende cómo funciona la energía solar con este kit económico para estudiantes.",
-        price: 250,
-        image: "https://www.cyberpuerta.mx/img/product/M/CP-STEREN-PS-723-1.jpg"
-    },
-    {
-        id: 3,
-        name: "Luz Solar de Jardín",
-        description: "Económica y decorativa. Se carga de día y se enciende automáticamente de noche.",
-        price: 185,
-        image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQvglA9WFJ3aTGEw_JNfRtZkqcSGsnvIae2jbRTjnAfDw6XPioLcl3Vrh_WulkkZWPjkMqPpKpeO8fOugGFwYj3A_YNp5dtmBi3C3qqGZPl4DM1oIzx_wAcLtM1DXbYO9Ixx2RGdqk&usqp=CAc"
-    },
-    {
-        id: 4,
-        name: "Cargador Solar Portátil",
-        description: "Pequeño y práctico. Perfecto para cargar tu celular en zonas sin electricidad.",
-        price: 450,
-        image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxITEhUTExIVFRUVFRUYFxUXFRsYFxUVFRcYGBYVFRgYICggGBolHRUVITEhJSsrLi4uFx8zODMtNygtLisBCgoKDg0OGhAQGi0dHh8vMi0tMC0tLy0tLy0tLS0tLS4tLS0tLSstLS0tLS0tLS0tLS0tLi0tLS0tLS0tLS0tLf/AABEIAOcA2wMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABgEDBAUHAgj/xABUEAABAwEDBAsK"
-    },
-    {
-        id: 5,
-        name: "Linterna Solar Recargable",
-        description: "Alternativa económica para emergencias o cortes de luz. Sin pilas ni cables.",
-        price: 200,
-        image: "https://m.media-amazon.com/images/I/61FOUArF3nL.jpg"
-    },
-    {
-        id: 6,
-        name: "Panel Solar USB",
-        description: "Panel compacto para alimentar pequeños dispositivos. Bajo costo y alta utilidad.",
-        price: 550,
-        image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSmSeeakaZg4_NThD1eJsxNgVcVk-2TVG8cTWZ_mQFjNFJ_ojY3jKNEexhgTPIAxFz5Wpo2CY3pnDeRzdrRQiqqLAVPfwRtTNC1r_Hvfp6Hv3lyowVZcirEWBd0KrH9-V5e14gjZw&usqp=CAc"
-    },
-    {
-        id: 7,
-        name: "Mini Ventilador USB",
-        description: "Mini ventilador de bajo consumo. Funciona conectado a tu panel USB. Ideal para el verano.",
-        price: 130,
-        image: "https://i5.walmartimages.com/asr/bc83dc93-48e6-4a7e-a47e-63ea22708a32.35e35e4154082f19c5cdb765d0533e73.jpeg"
-    },
-    {
-        id: 8,
-        name: "Lámpara Solar Colgante",
-        description: "Solución sencilla y accesible para iluminar exteriores o pequeños talleres.",
-        price: 290,
-        image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUSExIVFRUVFRUYFxUXFRsYFxUVFRcYGBYVFRgYICggGBolHRUVITEhJSkrLi4uGB8zODMsNygtLisBCgoKDg0OGhAQGi0dHh8vMi0tMC0tLy0tLy0tLS0tLS4tLS0tLSstLS0tLS0tLS0tLS0tLi0tLS0tLS0tLS0tLf/AABEIAOcA2wMBIgACEQEDEQH/xAAcAAEA"
-    }
+    { id: 1, name: "Lámpara Solar Básica", description: "Ideal para hogares rurales o campamentos. Carga con el sol y brinda luz por 6 horas.", price: 320, image: "Lamapara solar basica.jpg" },
+    { id: 2, name: "Mini Panel Solar Educativo", description: "Aprende cómo funciona la energía solar con este kit económico para estudiantes.", price: 250, image: "Panel educativo.jpg" },
+    { id: 3, name: "Luz Solar de Jardín", description: "Económica y decorativa. Se carga de día y se enciende automáticamente de noche.", price: 185, image: "Lampara jardin.jpg" },
+    { id: 4, name: "Cargador Solar Portátil", description: "Pequeño y práctico. Perfecto para cargar tu celular en zonas sin electricidad.", price: 450, image: "cargador solar.jpg" },
+    { id: 5, name: "Linterna Solar Recargable", description: "Alternativa económica para emergencias o cortes de luz. Sin pilas ni cables.", price: 200, image: "linterna.png" },
+    { id: 6, name: "Panel Solar USB", description: "Panel compacto para alimentar pequeños dispositivos. Bajo costo y alta utilidad.", price: 550, image: "panel usb.jpg" },
+    { id: 7, name: "Mini Ventilador USB", description: "Mini ventilador de bajo consumo. Funciona conectado a tu panel USB.", price: 130, image: "https://i5.walmartimages.com/asr/bc83dc93-48e6-4a7e-a47e-63ea22708a32.35e35e4154082f19c5cdb765d0533e73.jpeg" },
+    { id: 8, name: "Lámpara Solar Colgante", description: "Solución sencilla y accesible para iluminar exteriores o pequeños talleres.", price: 290, image: "lampara colgante.jpg" },
+    { id: 9, name: "Kit Solar para Camping", description: "Kit completo con panel, batería y lámparas LED para campamentos.", price: 890, image: "kit de camping.jpg" },
+    { id: 10, name: "Reflector Solar LED", description: "Reflector potente con sensor de movimiento. Perfecto para seguridad.", price: 680, image: "reflector solar.jpg" },
+    { id: 11, name: "Radio Solar Portátil", description: "Radio AM/FM con carga solar y manivela. Ideal para emergencias.", price: 420, image: "radio solar.jpg" },
+    { id: 12, name: "Bomba de Agua Solar", description: "Bomba solar para fuentes o riego de jardín. Ecológica y eficiente.", price: 590, image: "bomba solar.jpeg" },
+    { id: 13, name: "Mochila Solar con USB", description: "Mochila con panel solar integrado para cargar dispositivos mientras caminas.", price: 750, image: "mochila solar.jpg" },
+    { id: 14, name: "Calentador Solar Portátil", description: "Calentador solar compacto para agua. Perfecto para duchas al aire libre.", price: 1200, image: "calentador solar.png" },
+    { id: 15, name: "Lámpara Solar de Mesa", description: "Lámpara decorativa con carga solar. Moderna y funcional.", price: 340, image: "lampara de mesa.jpeg" }
 ];
 
 // Opciones de pago
@@ -107,17 +66,17 @@ function updateCartCount() {
     if (el) el.textContent = totalItems;
 }
 
-// ---------------- Payment dropdown logic ----------------
+// ---------------- Payment dropdown / bottom-sheet logic ----------------
 let paymentDropdownEl = null;
+let paymentBackdropEl = null;
 
-// Crea el dropdown de métodos de pago (si existe el botón en el DOM)
+// Comprueba si estamos en móvil (puedes ajustar el ancho)
+function isMobileViewport() {
+    return window.innerWidth <= 768;
+}
+
 function createPaymentDropdown() {
-    // Si ya se creó, retornar
     if (paymentDropdownEl) return;
-
-    // Si no existe el toggle en el DOM (quizá la versión HTML no lo tiene), no crear nada
-    const paymentToggle = document.getElementById('paymentToggle');
-    if (!paymentToggle) return;
 
     const dropdown = document.createElement('div');
     dropdown.id = 'paymentDropdown';
@@ -160,55 +119,80 @@ function createPaymentDropdown() {
     });
 
     dropdown.appendChild(methodsDiv);
-    // Insertar al body para evitar problemas de overflow dentro del navbar
     document.body.appendChild(dropdown);
     paymentDropdownEl = dropdown;
+
+    // crea backdrop (usado especialmente en móvil)
+    const backdrop = document.createElement('div');
+    backdrop.id = 'paymentBackdrop';
+    backdrop.className = 'payment-backdrop';
+    backdrop.style.display = 'none';
+    backdrop.addEventListener('click', closePaymentDropdown);
+    document.body.appendChild(backdrop);
+    paymentBackdropEl = backdrop;
 }
 
-// Alternar visibilidad del dropdown (si existe)
-function togglePaymentDropdown() {
-    const paymentToggle = document.getElementById('paymentToggle');
-    if (!paymentToggle) return;
+function openPaymentDropdown() {
     createPaymentDropdown();
     if (!paymentDropdownEl) return;
 
-    const expanded = paymentToggle.getAttribute('aria-expanded') === 'true';
-    if (!expanded) {
-        // posicionar dropdown con respecto al botón
+    if (isMobileViewport()) {
+        // mostrar como bottom sheet
+        paymentDropdownEl.classList.add('mobile-sheet');
+        paymentDropdownEl.style.display = 'block';
+        paymentBackdropEl.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // evita scroll del body mientras sheet está abierto
+    } else {
+        // position near button (desktop dropdown)
+        const paymentToggle = document.getElementById('paymentToggle');
+        if (!paymentToggle) {
+            paymentDropdownEl.style.display = 'block';
+            return;
+        }
         const rect = paymentToggle.getBoundingClientRect();
+        paymentDropdownEl.classList.remove('mobile-sheet');
         paymentDropdownEl.style.top = (rect.bottom + 8) + 'px';
         const rightSpace = window.innerWidth - rect.right;
         paymentDropdownEl.style.right = Math.max(12, rightSpace) + 'px';
         paymentDropdownEl.style.left = 'auto';
         paymentDropdownEl.style.display = 'block';
-        paymentToggle.setAttribute('aria-expanded', 'true');
-    } else {
-        paymentDropdownEl.style.display = 'none';
-        paymentToggle.setAttribute('aria-expanded', 'false');
     }
+    const paymentToggle = document.getElementById('paymentToggle');
+    if (paymentToggle) paymentToggle.setAttribute('aria-expanded', 'true');
 }
 
-// Seleccionar método (almacena en localStorage y actualiza UI)
+function closePaymentDropdown() {
+    if (!paymentDropdownEl) return;
+    paymentDropdownEl.style.display = 'none';
+    paymentDropdownEl.classList.remove('mobile-sheet');
+    if (paymentBackdropEl) paymentBackdropEl.style.display = 'none';
+    document.body.style.overflow = ''; // restaurar scroll
+    const paymentToggle = document.getElementById('paymentToggle');
+    if (paymentToggle) paymentToggle.setAttribute('aria-expanded', 'false');
+}
+
+function togglePaymentDropdown() {
+    createPaymentDropdown();
+    if (!paymentDropdownEl) return;
+    const visible = paymentDropdownEl.style.display === 'block';
+    if (visible) closePaymentDropdown();
+    else openPaymentDropdown();
+}
+
 function selectPaymentMethod(id) {
     localStorage.setItem('selectedPaymentMethod', id);
-    // actualizar UI en dropdown si está abierto
     if (paymentDropdownEl) {
         const nodes = paymentDropdownEl.querySelectorAll('.payment-option');
         nodes.forEach(n => {
-            if (n.getAttribute('data-id') === id) {
-                n.classList.add('selected');
-            } else {
-                n.classList.remove('selected');
-            }
+            if (n.getAttribute('data-id') === id) n.classList.add('selected');
+            else n.classList.remove('selected');
         });
-        // cerrar dropdown
-        paymentDropdownEl.style.display = 'none';
     }
-    // actualizar label visible en la barra (si existe)
     updatePaymentLabel();
+    // cerrar (en móvil es bottom-sheet, en desktop dropdown)
+    closePaymentDropdown();
 }
 
-// Actualiza el texto visible del método de pago en la barra (si existe paymentLabel)
 function updatePaymentLabel() {
     const paymentLabelEl = document.getElementById('paymentLabel');
     if (!paymentLabelEl) return;
@@ -217,16 +201,15 @@ function updatePaymentLabel() {
     paymentLabelEl.textContent = opt ? opt.label : 'Método Pago';
 }
 
-// Cerrar dropdown al hacer click fuera
+// Cerrar dropdown al hacer click fuera (desktop)
 function onDocumentClick(e) {
     if (!paymentDropdownEl) return;
     const paymentToggle = document.getElementById('paymentToggle');
     const dd = paymentDropdownEl;
-    if (dd.style.display === 'block') {
+    if (dd.style.display === 'block' && !isMobileViewport()) {
         const target = e.target;
-        if (!dd.contains(target) && !paymentToggle.contains(target)) {
-            dd.style.display = 'none';
-            if (paymentToggle) paymentToggle.setAttribute('aria-expanded', 'false');
+        if (!dd.contains(target) && (!paymentToggle || !paymentToggle.contains(target))) {
+            closePaymentDropdown();
         }
     }
 }
@@ -235,10 +218,8 @@ function onDocumentClick(e) {
 document.addEventListener('DOMContentLoaded', () => {
     loadProducts();
     updateCartCount();
-    // actualizar contador periódicamente (si el carrito se modifica desde otras pestañas)
     setInterval(updateCartCount, 1000);
 
-    // Preparar dropdown si el HTML tiene el toggle
     createPaymentDropdown();
     if (paymentDropdownEl) paymentDropdownEl.style.display = 'none';
     updatePaymentLabel();
@@ -251,10 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // cerrar al hacer click fuera
     document.addEventListener('click', onDocumentClick);
 
-    // Escuchar cambios desde otras pestañas
+    // escuchar storage para sincronizar entre pestañas
     window.addEventListener('storage', (e) => {
         if (e.key === 'selectedPaymentMethod') {
             updatePaymentLabel();
@@ -270,10 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'cart') updateCartCount();
     });
 
-    // Cerrar dropdown al redimensionar
+    // esconder dropdown al cambiar tamaño
     window.addEventListener('resize', () => {
-        if (paymentDropdownEl) paymentDropdownEl.style.display = 'none';
-        const paymentToggleEl = document.getElementById('paymentToggle');
-        if (paymentToggleEl) paymentToggleEl.setAttribute('aria-expanded', 'false');
+        closePaymentDropdown();
     });
 });
