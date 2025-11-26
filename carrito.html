@@ -295,6 +295,67 @@
             font-size: 0.9rem;
         }
 
+        /* Payment methods styles (usadas por el JS) */
+        .payment-section {
+            margin-top: 1rem;
+        }
+
+        .payment-section h4 {
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 2px solid #eee;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+
+        .payment-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .payment-option.selected {
+            border-color: #FFA500;
+            box-shadow: 0 10px 30px rgba(255,165,0,0.15);
+            background: linear-gradient(90deg, rgba(255,165,0,0.06), rgba(255,140,0,0.03));
+        }
+
+        .payment-icon {
+            font-size: 1.6rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #eee;
+        }
+
+        .payment-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .payment-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         /* Empty Cart */
         .empty-cart {
             grid-column: 1 / -1;
@@ -558,7 +619,7 @@
                 name: "Calentador Solar Portátil",
                 description: "Calentador solar compacto para agua. Perfecto para duchas al aire libre.",
                 price: 1200,
-                image: "calentador solar.png"
+                image: "calentador solar.jpg"
             },
             {
                 id: 15,
@@ -567,6 +628,14 @@
                 price: 340,
                 image: "lampara de mesa.jpeg"
             }
+        ];
+
+        // Opciones de pago disponibles
+        const paymentOptions = [
+            { id: 'card', label: 'Tarjeta de Crédito / Débito', desc: 'Visa, MasterCard, Amex', icon: '💳' },
+            { id: 'paypal', label: 'PayPal', desc: 'Pago seguro con PayPal', icon: '🅿️' },
+            { id: 'oxxo', label: 'OXXO / Pago en Efectivo', desc: 'Paga en efectivo en OXXO', icon: '🏪' },
+            { id: 'transfer', label: 'Transferencia Bancaria', desc: 'Depósito o SPEI', icon: '🏦' }
         ];
 
         function loadCart() {
@@ -645,6 +714,13 @@
                         <span>Total:</span>
                         <span class="price">$${total.toFixed(2)} MXN</span>
                     </div>
+
+                    <!-- Payment methods will be rendered here -->
+                    <div class="payment-section" id="paymentSection">
+                        <h4>Método de Pago</h4>
+                        <div id="paymentMethods" class="payment-methods" aria-label="Métodos de pago"></div>
+                    </div>
+
                     <button class="checkout-btn" onclick="checkout()">
                         💳 Proceder al Pago
                     </button>
@@ -656,6 +732,62 @@
                     </div>
                 </div>
             `;
+
+            // Después de renderizar el HTML del resumen, renderizamos las opciones de pago
+            renderPaymentOptions();
+        }
+
+        function renderPaymentOptions() {
+            const container = document.getElementById('paymentMethods');
+            if (!container) return;
+
+            const selected = localStorage.getItem('selectedPaymentMethod') || null;
+
+            container.innerHTML = ''; // limpiar
+
+            paymentOptions.forEach(opt => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'payment-option' + (selected === opt.id ? ' selected' : '');
+                optionDiv.setAttribute('role', 'button');
+                optionDiv.setAttribute('tabindex', '0');
+                optionDiv.setAttribute('data-id', opt.id);
+                optionDiv.setAttribute('aria-pressed', selected === opt.id ? 'true' : 'false');
+
+                optionDiv.innerHTML = `
+                    <div class="payment-icon" aria-hidden="true">${opt.icon}</div>
+                    <div style="display:flex;flex-direction:column;">
+                        <div class="payment-label">${opt.label}</div>
+                        <div class="payment-desc">${opt.desc}</div>
+                    </div>
+                `;
+
+                // click handler
+                optionDiv.addEventListener('click', () => selectPaymentMethod(opt.id));
+                // keyboard handler (Enter / Space)
+                optionDiv.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectPaymentMethod(opt.id);
+                    }
+                });
+
+                container.appendChild(optionDiv);
+            });
+        }
+
+        function selectPaymentMethod(methodId) {
+            localStorage.setItem('selectedPaymentMethod', methodId);
+            // actualizar UI: quitar selected de todos y añadir al elegido
+            const nodes = document.querySelectorAll('.payment-option');
+            nodes.forEach(n => {
+                if (n.getAttribute('data-id') === methodId) {
+                    n.classList.add('selected');
+                    n.setAttribute('aria-pressed', 'true');
+                } else {
+                    n.classList.remove('selected');
+                    n.setAttribute('aria-pressed', 'false');
+                }
+            });
         }
 
         function updateQuantity(productId, change) {
@@ -677,13 +809,34 @@
         }
 
         function checkout() {
-            alert('¡Gracias por tu compra! Procesaremos tu pedido pronto. 🌟');
+            const selectedPayment = localStorage.getItem('selectedPaymentMethod');
+            if (!selectedPayment) {
+                // Si no hay método seleccionado, pedimos al usuario que lo elija
+                const wantToChoose = confirm('No has seleccionado un método de pago. ¿Deseas elegir uno antes de continuar?');
+                if (wantToChoose) {
+                    // simplemente devolvemos para que el usuario pueda elegir
+                    return;
+                }
+            }
+
+            // Mostrar resumen de pago (incluyendo método si existe)
+            const methodLabel = paymentOptions.find(p => p.id === selectedPayment)?.label || 'No especificado';
+            alert(`¡Gracias por tu compra! Método de pago: ${methodLabel}\nProcesaremos tu pedido pronto. 🌟`);
+
+            // Limpiar carrito (y opción de pago si quieres)
             localStorage.removeItem('cart');
+            // localStorage.removeItem('selectedPaymentMethod'); // opcional: comentar si quieres mantener selección
             window.location.href = 'index.html';
         }
 
+        // Inicialización al cargar la página
         loadCart();
+
+        // Observador para actualizar selección visual si el usuario cambia en otra pestaña
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'selectedPaymentMethod') renderPaymentOptions();
+            if (e.key === 'cart') loadCart();
+        });
     </script>
 </body>
-
 </html>
