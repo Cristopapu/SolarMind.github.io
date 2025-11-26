@@ -366,6 +366,91 @@
             .section-title { font-size: 1.6rem; }
             .payment-dropdown { right: 1rem; left: 1rem; top: 68px; width: auto; }
         }
+        /* Estilos para dropdown / bottom-sheet responsive - pega esto en tu CSS principal */
+
+/* Backdrop */
+.payment-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 108;
+}
+
+/* Dropdown (desktop default) */
+.payment-dropdown {
+    position: absolute;
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    padding: 0.8rem;
+    z-index: 110;
+    display: none;
+}
+
+/* Mobile bottom-sheet style */
+.payment-dropdown.mobile-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 1rem;
+    z-index: 110;
+}
+
+/* Opciones (tamaño táctil en móvil) */
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    cursor: pointer;
+    background: #fafafa;
+}
+
+.payment-option .payment-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #eee;
+}
+
+.payment-option.selected {
+    border-color: #FFA500;
+    background: linear-gradient(90deg, rgba(255,165,0,0.06), rgba(255,140,0,0.03));
+    box-shadow: 0 10px 30px rgba(255,165,0,0.08);
+}
+
+/* Texto */
+.payment-label { font-weight: 600; color: #333; }
+.payment-desc { font-size: 0.9rem; color: #666; }
+
+/* Mobile-specific: ampliar touch targets */
+@media (max-width: 768px) {
+    .payment-option {
+        padding: 14px;
+        gap: 1rem;
+    }
+    .payment-option .payment-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.6rem;
+    }
+    .payment-dropdown {
+        width: 100%;
+    }
+}
     </style>
 </head>
 <body>
@@ -674,3 +759,4 @@
     </script>
 </body>
 </html>
+
