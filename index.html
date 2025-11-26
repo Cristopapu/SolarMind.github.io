@@ -690,9 +690,14 @@
             background: white;
         }
 
+        /* 
+           Cambios clave:
+           - Forzamos 3 columnas en pantallas grandes para que las 6 tarjetas queden 3+3 (no 4+2).
+           - En pantallas medianas usamos 2 columnas y en móviles 1 columna.
+        */
         .characteristics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr); /* 3 columnas fijas en desktop */
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
@@ -1105,10 +1110,18 @@
             margin-bottom: 2.5rem;
         }
 
+        /* 
+           Cambios clave FODA:
+           - Forzamos 2 columnas para que las tarjetas queden en 2x2 y centradas en la modal.
+           - Ajustes responsivos para que en móvil sea 1 columna.
+        */
         .foda-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, minmax(280px, 1fr)); /* 2 columnas fijas */
             gap: 1.5rem;
+            justify-content: center; /* centrar el conjunto si hay espacio */
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         .foda-card {
@@ -1118,6 +1131,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s;
+            width: 100%;
         }
 
         .foda-card:hover {
@@ -1245,7 +1259,17 @@
         }
 
         /* === RESPONSIVE === */
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
+            /* aseguramos 2 columnas para characteristics en pantallas medianas */
+            .characteristics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* ajustamos modal máximo */
+            .modal-content { padding: 2rem; }
+        }
+
+        @media (max-width: 768px) {
             .navbar-menu {
                 display: none;
             }
@@ -1257,9 +1281,7 @@
             .navbar-title {
                 font-size: 1rem;
             }
-        }
 
-        @media (max-width: 768px) {
             .navbar-title {
                 display: none;
             }
@@ -1289,44 +1311,25 @@
                 width: 95%;
                 right: 2.5%;
             }
-            /* Forzar 3 columnas en pantallas grandes, 2 en tablets, 1 en móviles */
-           .characteristics-grid {
-           display: grid;
-           grid-template-columns: repeat(3, minmax(0, 1fr)); /* <- fuerza 3 columnas */
-           gap: 2rem; /* ya tenías gap: 2rem, mantenlo */
-           max-width: 1400px;
-           margin: 0 auto;
-           }
 
-           /* Si quieres que en pantallas medianas baje a 2 columnas */
-           @media (max-width: 1100px) {
-          .characteristics-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-          }
+            /* characteristics: 1 columna en móvil */
+            .characteristics-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
 
-          /* Móviles: 1 columna */
-          @media (max-width: 640px) {
-          .characteristics-grid {
-          grid-template-columns: 1fr;
-          }
-          }
-            /* Asegura 2 columnas (2 arriba y 2 abajo) en pantallas grandes */
-          .foda-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr)); /* <- fuerza 2 columnas */
-          gap: 2rem;
-          max-width: 900px; /* ajusta si hace falta */
-          margin: 2rem auto 0;
-          justify-items: center;
-         }
+            /* foda: 1 columna en móvil para mejor lectura */
+            .foda-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 0.25rem;
+            }
 
-          /* En móviles 1 columna */
-          @media (max-width: 640px) {
-         .foda-grid {
-         grid-template-columns: 1fr;
-         }
-         }
+            .foda-btn {
+                width: 12rem;
+                height: 12rem;
+                font-size: 5rem;
+            }
         }
     </style>
 </head>
@@ -1842,7 +1845,7 @@
 
           objective: {
             title: 'Objetivo',
-            content: 'AGENDA2030.HTML',
+            content: 'agenda2030.html',
             useRedirect: true,
             openInNewTab: false
           },
@@ -2037,6 +2040,6 @@
         });
     </script>
 </body>
-
 </html>
+
 
