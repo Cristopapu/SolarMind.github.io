@@ -6,7 +6,7 @@ const SolarLinks = {
   adquiere: 'catalogo.html',
   planes: 'planes-casas.html',
   cotizacion: 'cotizaciones.html',
-  sumate: 'sumate.html',
+  sumate: 'https://www.pactomundial.org/ods/7-energia-asequible-y-no-contaminante/',
   conoce: 'https://www.un.org/sustainabledevelopment/es/energy/'
 };
 
@@ -275,5 +275,6 @@ function initButtonRedirects() {
     `;
     document.head.appendChild(style);
 })();
+
 
 console.log('🌞 SolarMind - Agenda 2030 ODS 13 cargado correctamente. En SolarLinks coloca tus 5 URLs.');
