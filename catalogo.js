@@ -1,3 +1,5 @@
+// catalogo.js (actualizado) - añade selector de método de pago y sincronización con localStorage
+
 // Productos data
 const products = [
     {
@@ -58,42 +60,220 @@ const products = [
     }
 ];
 
-// Load products on page load
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
-});
+// Opciones de pago
+const paymentOptions = [
+    { id: 'card', label: 'Tarjeta de Crédito / Débito', desc: 'Visa, MasterCard, Amex', icon: '💳' },
+    { id: 'paypal', label: 'PayPal', desc: 'Pago seguro con PayPal', icon: '🅿️' },
+    { id: 'oxxo', label: 'OXXO / Pago en Efectivo', desc: 'Paga en efectivo en OXXO', icon: '🏪' },
+    { id: 'transfer', label: 'Transferencia Bancaria', desc: 'Depósito o SPEI', icon: '🏦' }
+];
 
+// Renderiza productos en el grid
 function loadProducts() {
     const grid = document.getElementById('productsGrid');
-    
+    if (!grid) return;
+    grid.innerHTML = '';
+
     products.forEach((product, index) => {
-        const productCard = `
-            <div class="col-sm-6 col-md-4 col-lg-3 animate-slide-up" style="animation-delay: ${index * 0.1}s;">
-                <div class="product-card" onclick="goToProduct(${product.id})">
-                    <div class="product-image-wrapper">
-                        <img src="${product.image}" alt="${product.name}">
-                        <div class="product-overlay">
-                            <a href__="#" class="product-quick-view">
-                                <i class="bi bi-eye"></i> Ver Detalles
-                            </a>
-                        </div>
-                    </div>
-                    <div class="product-body">
-                        <h5>${product.name}</h5>
-                        <p>${product.description}</p>
-                        <span class="product-price">$${product.price}.00 MXN</span>
-                        <button class="product-btn">
-                            <i class="bi bi-cart-plus me-2"></i>Ver Producto
-                        </button>
-                    </div>
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.style.animationDelay = `${index * 0.05}s`;
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-body">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
+                    <span class="product-price">$${product.price}.00 MXN</span>
+                    <button class="btn-buy" aria-label="Ver ${product.name}" onclick="goToProduct(${product.id})">🛒 Ver Producto</button>
                 </div>
             </div>
         `;
-        grid.innerHTML += productCard;
+        grid.appendChild(productCard);
     });
 }
 
+// Navegar a la página de producto (guarda seleccionado)
 function goToProduct(productId) {
     localStorage.setItem('selectedProduct', productId);
     window.location.href = 'producto.html';
 }
+
+// Contador del carrito
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const el = document.getElementById('cartCount');
+    if (el) el.textContent = totalItems;
+}
+
+// ---------------- Payment dropdown logic ----------------
+let paymentDropdownEl = null;
+
+// Crea el dropdown de métodos de pago (si existe el botón en el DOM)
+function createPaymentDropdown() {
+    // Si ya se creó, retornar
+    if (paymentDropdownEl) return;
+
+    // Si no existe el toggle en el DOM (quizá la versión HTML no lo tiene), no crear nada
+    const paymentToggle = document.getElementById('paymentToggle');
+    if (!paymentToggle) return;
+
+    const dropdown = document.createElement('div');
+    dropdown.id = 'paymentDropdown';
+    dropdown.className = 'payment-dropdown';
+    dropdown.setAttribute('role', 'dialog');
+    dropdown.setAttribute('aria-label', 'Seleccionar método de pago');
+
+    const title = document.createElement('h4');
+    title.textContent = 'Selecciona tu método de pago';
+    dropdown.appendChild(title);
+
+    const methodsDiv = document.createElement('div');
+    methodsDiv.className = 'payment-methods';
+
+    const selected = localStorage.getItem('selectedPaymentMethod') || null;
+
+    paymentOptions.forEach(opt => {
+        const optDiv = document.createElement('div');
+        optDiv.className = 'payment-option' + (selected === opt.id ? ' selected' : '');
+        optDiv.setAttribute('data-id', opt.id);
+        optDiv.setAttribute('tabindex', '0');
+        optDiv.setAttribute('role', 'button');
+        optDiv.innerHTML = `
+            <div class="payment-icon" aria-hidden="true">${opt.icon}</div>
+            <div style="display:flex;flex-direction:column;">
+                <div class="payment-label">${opt.label}</div>
+                <div class="payment-desc">${opt.desc}</div>
+            </div>
+        `;
+        optDiv.addEventListener('click', () => {
+            selectPaymentMethod(opt.id);
+        });
+        optDiv.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectPaymentMethod(opt.id);
+            }
+        });
+        methodsDiv.appendChild(optDiv);
+    });
+
+    dropdown.appendChild(methodsDiv);
+    // Insertar al body para evitar problemas de overflow dentro del navbar
+    document.body.appendChild(dropdown);
+    paymentDropdownEl = dropdown;
+}
+
+// Alternar visibilidad del dropdown (si existe)
+function togglePaymentDropdown() {
+    const paymentToggle = document.getElementById('paymentToggle');
+    if (!paymentToggle) return;
+    createPaymentDropdown();
+    if (!paymentDropdownEl) return;
+
+    const expanded = paymentToggle.getAttribute('aria-expanded') === 'true';
+    if (!expanded) {
+        // posicionar dropdown con respecto al botón
+        const rect = paymentToggle.getBoundingClientRect();
+        paymentDropdownEl.style.top = (rect.bottom + 8) + 'px';
+        const rightSpace = window.innerWidth - rect.right;
+        paymentDropdownEl.style.right = Math.max(12, rightSpace) + 'px';
+        paymentDropdownEl.style.left = 'auto';
+        paymentDropdownEl.style.display = 'block';
+        paymentToggle.setAttribute('aria-expanded', 'true');
+    } else {
+        paymentDropdownEl.style.display = 'none';
+        paymentToggle.setAttribute('aria-expanded', 'false');
+    }
+}
+
+// Seleccionar método (almacena en localStorage y actualiza UI)
+function selectPaymentMethod(id) {
+    localStorage.setItem('selectedPaymentMethod', id);
+    // actualizar UI en dropdown si está abierto
+    if (paymentDropdownEl) {
+        const nodes = paymentDropdownEl.querySelectorAll('.payment-option');
+        nodes.forEach(n => {
+            if (n.getAttribute('data-id') === id) {
+                n.classList.add('selected');
+            } else {
+                n.classList.remove('selected');
+            }
+        });
+        // cerrar dropdown
+        paymentDropdownEl.style.display = 'none';
+    }
+    // actualizar label visible en la barra (si existe)
+    updatePaymentLabel();
+}
+
+// Actualiza el texto visible del método de pago en la barra (si existe paymentLabel)
+function updatePaymentLabel() {
+    const paymentLabelEl = document.getElementById('paymentLabel');
+    if (!paymentLabelEl) return;
+    const selected = localStorage.getItem('selectedPaymentMethod');
+    const opt = paymentOptions.find(p => p.id === selected);
+    paymentLabelEl.textContent = opt ? opt.label : 'Método Pago';
+}
+
+// Cerrar dropdown al hacer click fuera
+function onDocumentClick(e) {
+    if (!paymentDropdownEl) return;
+    const paymentToggle = document.getElementById('paymentToggle');
+    const dd = paymentDropdownEl;
+    if (dd.style.display === 'block') {
+        const target = e.target;
+        if (!dd.contains(target) && !paymentToggle.contains(target)) {
+            dd.style.display = 'none';
+            if (paymentToggle) paymentToggle.setAttribute('aria-expanded', 'false');
+        }
+    }
+}
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', () => {
+    loadProducts();
+    updateCartCount();
+    // actualizar contador periódicamente (si el carrito se modifica desde otras pestañas)
+    setInterval(updateCartCount, 1000);
+
+    // Preparar dropdown si el HTML tiene el toggle
+    createPaymentDropdown();
+    if (paymentDropdownEl) paymentDropdownEl.style.display = 'none';
+    updatePaymentLabel();
+
+    const paymentToggle = document.getElementById('paymentToggle');
+    if (paymentToggle) {
+        paymentToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePaymentDropdown();
+        });
+    }
+
+    // cerrar al hacer click fuera
+    document.addEventListener('click', onDocumentClick);
+
+    // Escuchar cambios desde otras pestañas
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'selectedPaymentMethod') {
+            updatePaymentLabel();
+            if (paymentDropdownEl) {
+                const selected = localStorage.getItem('selectedPaymentMethod');
+                const nodes = paymentDropdownEl.querySelectorAll('.payment-option');
+                nodes.forEach(n => {
+                    if (n.getAttribute('data-id') === selected) n.classList.add('selected');
+                    else n.classList.remove('selected');
+                });
+            }
+        }
+        if (e.key === 'cart') updateCartCount();
+    });
+
+    // Cerrar dropdown al redimensionar
+    window.addEventListener('resize', () => {
+        if (paymentDropdownEl) paymentDropdownEl.style.display = 'none';
+        const paymentToggleEl = document.getElementById('paymentToggle');
+        if (paymentToggleEl) paymentToggleEl.setAttribute('aria-expanded', 'false');
+    });
+});
