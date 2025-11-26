@@ -1289,6 +1289,44 @@
                 width: 95%;
                 right: 2.5%;
             }
+            /* Forzar 3 columnas en pantallas grandes, 2 en tablets, 1 en móviles */
+           .characteristics-grid {
+           display: grid;
+           grid-template-columns: repeat(3, minmax(0, 1fr)); /* <- fuerza 3 columnas */
+           gap: 2rem; /* ya tenías gap: 2rem, mantenlo */
+           max-width: 1400px;
+           margin: 0 auto;
+           }
+
+           /* Si quieres que en pantallas medianas baje a 2 columnas */
+           @media (max-width: 1100px) {
+          .characteristics-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+          }
+
+          /* Móviles: 1 columna */
+          @media (max-width: 640px) {
+          .characteristics-grid {
+          grid-template-columns: 1fr;
+          }
+          }
+            /* Asegura 2 columnas (2 arriba y 2 abajo) en pantallas grandes */
+          .foda-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr)); /* <- fuerza 2 columnas */
+          gap: 2rem;
+          max-width: 900px; /* ajusta si hace falta */
+          margin: 2rem auto 0;
+          justify-items: center;
+         }
+
+          /* En móviles 1 columna */
+          @media (max-width: 640px) {
+         .foda-grid {
+         grid-template-columns: 1fr;
+         }
+         }
         }
     </style>
 </head>
@@ -2001,3 +2039,4 @@
 </body>
 
 </html>
+
