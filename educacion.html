@@ -716,6 +716,119 @@
             font-weight: bold;
             font-size: 1.5rem;
         }
+
+        /*
+          RESPONSIVE IMPROVEMENTS FOR "Estrategias de Sostenibilidad"
+          - On tablets, show image left and the text + two info-boxes on the right (two-column layout).
+          - On mobile phones, keep a single column but increase spacing, reduce the size of the number badge and increase line-height so items don't feel "apachurrados".
+        */
+        /* New wrapper styling (we add .feature-body in HTML below) */
+        .feature-body {
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        /* Tablet layout: side-by-side */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .feature-box {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                align-items: start;
+                padding: 2rem;
+            }
+
+            .feature-image {
+                height: 100%;
+                min-height: 240px;
+                border-radius: 0.75rem;
+                margin-bottom: 0;
+            }
+
+            .feature-body {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .info-box {
+                margin-bottom: 0; /* gaps handled by feature-body */
+            }
+        }
+
+        /* Desktop: keep current stacked inside with good spacing */
+        @media (min-width: 1025px) {
+            .feature-box {
+                padding: 2.25rem;
+            }
+
+            .feature-body {
+                margin-left: 0;
+            }
+        }
+
+        /* Mobile: increase vertical spacing, slightly reduce number badge and increase readability */
+        @media (max-width: 767px) {
+            .feature-box {
+                padding: 1.25rem;
+                border-left-width: 4px;
+            }
+
+            .feature-image {
+                height: 180px;
+                margin-bottom: 1rem;
+            }
+
+            .feature-body {
+                gap: 1rem;
+            }
+
+            .info-box {
+                padding: 1.15rem;
+                border-radius: 0.9rem;
+                margin-bottom: 1rem;
+                line-height: 1.6;
+            }
+
+            .info-box-header {
+                gap: 0.75rem;
+            }
+
+            .number-badge {
+                width: 2.4rem;
+                height: 2.4rem;
+                font-size: 1rem;
+            }
+
+            .info-box h5 {
+                font-size: 1.05rem;
+            }
+
+            .feature-box .card-image, .feature-box .feature-image {
+                border-radius: 0.75rem;
+            }
+        }
+
+        /* Small phones: extra breathing room */
+        @media (max-width: 420px) {
+            .feature-box {
+                padding: 1rem;
+            }
+
+            .info-box {
+                padding: 1rem;
+            }
+
+            .info-box h5 {
+                font-size: 1rem;
+            }
+
+            .number-badge {
+                width: 2.2rem;
+                height: 2.2rem;
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -786,37 +899,40 @@
                 </p>
             </div>
 
+            <!-- FEATURE BOX: modified HTML structure: image + .feature-body to control layout on tablets -->
             <div class="feature-box animate-on-scroll">
                 <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80" alt="Paneles Solares" class="feature-image">
                 
-                <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: #1f2937;">
-                    <i class="fas fa-recycle" style="color: #10b981;"></i>
-                    Estrategias de Sostenibilidad
-                </h3>
-                
-                <div class="info-box info-box-green">
-                    <div class="info-box-header">
-                        <span class="number-badge">1</span>
-                        <h5>GESTIÓN RESPONSABLE DEL CICLO DE VIDA</h5>
+                <div class="feature-body">
+                    <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: #1f2937;">
+                        <i class="fas fa-recycle" style="color: #10b981;"></i>
+                        Estrategias de Sostenibilidad
+                    </h3>
+                    
+                    <div class="info-box info-box-green">
+                        <div class="info-box-header">
+                            <span class="number-badge">1</span>
+                            <h5>GESTIÓN RESPONSABLE DEL CICLO DE VIDA</h5>
+                        </div>
+                        <p style="font-size: 1.05rem; line-height: 1.7;">
+                            Implementamos un programa proactivo y certificado para la recuperación, reciclaje y 
+                            revalorización de paneles solares al final de su vida útil. Esto es crucial para la sostenibilidad, 
+                            ya que evita la carga ambiental de residuos y asegura la recuperación de materiales valiosos 
+                            (silicio, metales, etc.) mediante procesos circulares.
+                        </p>
                     </div>
-                    <p style="font-size: 1.05rem; line-height: 1.7;">
-                        Implementamos un programa proactivo y certificado para la recuperación, reciclaje y 
-                        revalorización de paneles solares al final de su vida útil. Esto es crucial para la sostenibilidad, 
-                        ya que evita la carga ambiental de residuos y asegura la recuperación de materiales valiosos 
-                        (silicio, metales, etc.) mediante procesos circulares.
-                    </p>
-                </div>
 
-                <div class="info-box info-box-green">
-                    <div class="info-box-header">
-                        <span class="number-badge">2</span>
-                        <h5>DISEÑO SOSTENIBLE Y CADENA DE SUMINISTRO ÉTICA</h5>
+                    <div class="info-box info-box-green">
+                        <div class="info-box-header">
+                            <span class="number-badge">2</span>
+                            <h5>DISEÑO SOSTENIBLE Y CADENA DE SUMINISTRO ÉTICA</h5>
+                        </div>
+                        <p style="font-size: 1.05rem; line-height: 1.7;">
+                            Trabajamos exclusivamente con proveedores que priorizan el ecodiseño, la reducción de residuos 
+                            y el uso de materiales menos tóxicos o reciclados en la fabricación de los paneles y componentes. 
+                            Nuestro compromiso comienza antes de la instalación.
+                        </p>
                     </div>
-                    <p style="font-size: 1.05rem; line-height: 1.7;">
-                        Trabajamos exclusivamente con proveedores que priorizan el ecodiseño, la reducción de residuos 
-                        y el uso de materiales menos tóxicos o reciclados en la fabricación de los paneles y componentes. 
-                        Nuestro compromiso comienza antes de la instalación.
-                    </p>
                 </div>
             </div>
         </div>
