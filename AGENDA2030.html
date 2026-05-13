@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLAR MIND - Energía que Inspira | ODS 7</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --orange-500: #f97316;
+  --orange-600: #ea580c;
+  --green-500: #10b981;
+  --green-600: #059669;
+  --teal-500: #14b8a6;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow-x: hidden;
+  background: #fffbeb;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(to right, var(--amber-500), var(--orange-500), var(--amber-600));
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.nav-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.2));
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.navbar .container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.logo-wrapper {
+  position: relative;
+}
+
+.logo-glow {
+  position: absolute;
+  inset: 0;
+  background: white;
+  border-radius: 1rem;
+  filter: blur(20px);
+  opacity: 0.5;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-link:hover .logo-glow {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.logo-link:hover .logo-icon {
+  transform: scale(1.1) rotate(12deg);
+}
+
+.logo-icon i {
+  font-size: 2rem;
+  color: white;
+  animation: spin-slow 8s linear infinite;
+}
+
+.logo-text {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  transition: letter-spacing 0.3s ease;
+}
+
+.logo-link:hover .logo-text {
+  letter-spacing: 0.05em;
+}
+
+/* Hero Agenda */
+.hero-agenda {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.hero-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, var(--amber-400), var(--orange-500), #eab308);
+}
+
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.3) 0%, transparent 50%);
+  animation: pattern-move 10s ease-in-out infinite;
+}
+
+.floating-elements-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.float-element {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 3rem;
+  animation: float-element 10s ease-in-out infinite;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 2rem;
+  animation: badge-glow 2s ease-in-out infinite;
+}
+
+.hero-badge i {
+  color: white;
+  font-size: 1.25rem;
+  animation: spin-slow 8s linear infinite;
+}
+
+.hero-badge span {
+  color: white;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  animation: title-glow 2s ease-in-out infinite;
+}
+
+.gradient-text {
+  display: block;
+  animation: text-shimmer 3s ease-in-out infinite;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 48rem;
+  margin: 0 auto 3rem;
+  font-weight: 300;
+}
+
+.hero-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.hero-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: icon-float 2s ease-in-out infinite;
+}
+
+.hero-icon:nth-child(2) { animation-delay: 0.3s; }
+.hero-icon:nth-child(3) { animation-delay: 0.6s; }
+
+.hero-icon:hover {
+  transform: scale(1.2) rotate(360deg);
+}
+
+.hero-icon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.hero-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  animation: wave-draw 2s ease-out;
+}
+
+/* Carousel */
+.carousel-section {
+  height: 90vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-container {
+  position: relative;
+  height: 100%;
+}
+
+.carousel-track {
+  position: relative;
+  height: 100%;
+}
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.4), rgba(0,0,0,0.5));
+}
+
+.carousel-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  max-width: 900px;
+  width: 90%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  animation: content-glow 2s ease-in-out infinite;
+}
+
+.carousel-content h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--amber-400);
+  margin-bottom: 1rem;
+}
+
+.carousel-content p {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: white;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.btn-carousel {
+  background: linear-gradient(to right, var(--amber-500), var(--orange-500));
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+}
+
+.btn-carousel:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(251, 191, 36, 0.5);
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-prev { left: 2rem; }
+.carousel-next { right: 2rem; }
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  width: 48px;
+  background: var(--amber-400);
+}
+
+/* Sections Common */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+  }
+  .grid.reverse {
+    direction: rtl;
+  }
+  .grid.reverse > * {
+    direction: ltr;
+  }
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.section-badge.orange {
+  background: #fed7aa;
+  color: var(--amber-600);
+}
+
+.section-badge.green {
+  background: #d1fae5;
+  color: var(--green-600);
+}
+
+.section-badge.light {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: var(--amber-400);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.section-badge:hover {
+  transform: scale(1.05);
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.section-title.light {
+  color: white;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--amber-600), var(--orange-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-light {
+  background: linear-gradient(to right, var(--amber-400), var(--orange-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-green {
+  background: linear-gradient(to right, var(--green-600), var(--teal-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-text {
+  font-size: 1.125rem;
+  color: #374151;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.section-text.light {
+  color: #d1d5db;
+}
+
+/* Image Wrappers */
+.image-wrapper {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.image-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, var(--amber-500), var(--orange-500));
+  filter: blur(40px);
+  opacity: 0.3;
+  transition: opacity 0.5s;
+}
+
+.image-glow.green {
+  background: linear-gradient(to bottom right, var(--green-500), var(--teal-500));
+}
+
+.image-glow.orange {
+  background: linear-gradient(to bottom right, var(--amber-500), var(--orange-500));
+}
+
+.image-wrapper:hover .image-glow {
+  opacity: 0.5;
+}
+
+.image-wrapper img {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper.dark img {
+  border: 4px solid rgba(255, 255, 255, 0.1);
+}
+
+.image-border {
+  position: absolute;
+  inset: 0;
+  border: 4px solid rgba(251, 191, 36, 0.5);
+  border-radius: 1.5rem;
+  animation: border-pulse 3s ease-in-out infinite;
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(251, 191, 36, 0.2), transparent);
+  animation: overlay-pulse 3s ease-in-out infinite;
+}
+
+.floating-badge {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  background: linear-gradient(to bottom right, var(--amber-400), var(--orange-500));
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
+  animation: badge-float 3s ease-in-out infinite;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card i {
+  font-size: 2rem;
+  color: var(--amber-500);
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* Objetivo Section */
+.objetivo-section {
+  padding: 6rem 0;
+  background: linear-gradient(to bottom right, #fffbeb, #fed7aa);
+  position: relative;
+  overflow: hidden;
+}
+
+.objetivo-blob {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 384px;
+  height: 384px;
+  background: #fde68a;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.2;
+  animation: blob-float 8s ease-in-out infinite;
+}
+
+/* Clima Section */
+.clima-section {
+  padding: 6rem 0;
+  background: linear-gradient(to bottom, #0f172a, #111827);
+  position: relative;
+  overflow: hidden;
+}
+
+.clima-blob-1 {
+  position: absolute;
+  top: 5rem;
+  left: 2.5rem;
+  width: 288px;
+  height: 288px;
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: blob-orbit-1 10s ease-in-out infinite;
+}
+
+.clima-blob-2 {
+  position: absolute;
+  bottom: 5rem;
+  right: 2.5rem;
+  width: 384px;
+  height: 384px;
+  background: rgba(249, 115, 22, 0.1);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: blob-orbit-2 12s ease-in-out infinite;
+}
+
+.particles-clima {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.features-list {
+  margin-top: 2rem;
+  space-y: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom right, var(--amber-500), var(--orange-500));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feature-icon i {
+  color: white;
+  font-size: 1.25rem;
+}
+
+.feature-item span {
+  color: white;
+  font-size: 1.125rem;
+}
+
+/* Educacion Section */
+.educacion-section {
+  padding: 6rem 0;
+  background: linear-gradient(to bottom right, #fffbeb, #fed7aa);
+  position: relative;
+  overflow: hidden;
+}
+
+.educacion-blob {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 384px;
+  height: 384px;
+  background: #fde68a;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.2;
+  animation: blob-float-reverse 10s ease-in-out infinite;
+}
+
+.education-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.edu-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  border: 2px solid #d1fae5;
+  transition: all 0.3s ease;
+}
+
+.edu-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--green-500);
+}
+
+.edu-card i {
+  font-size: 2rem;
+  color: var(--green-500);
+  margin-bottom: 0.5rem;
+}
+
+.edu-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.edu-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+/* CTA Section */
+.cta-section {
+  position: relative;
+  padding: 8rem 0;
+  overflow: hidden;
+}
+
+.cta-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, var(--amber-400), var(--orange-500), var(--amber-600));
+}
+
+.cta-pattern {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(251, 191, 36, 0.8), rgba(249, 115, 22, 0.8));
+  animation: cta-pattern 10s ease-in-out infinite;
+}
+
+.sparkles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.5rem;
+  animation: sparkle-float 5s ease-in-out infinite;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 10;
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.cta-icon {
+  display: inline-flex;
+  margin-bottom: 2rem;
+  animation: rocket-float 4s ease-in-out infinite;
+}
+
+.cta-icon i {
+  font-size: 5rem;
+  color: white;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+}
+
+.cta-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.cta-text {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+
+.btn-cta {
+  padding: 1.5rem 2.5rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-cta.primary {
+  background: white;
+  color: var(--amber-600);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.btn-cta.primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+.btn-cta.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-cta.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.badge-item {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.badge-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.cta-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Footer */
+.footer {
+  background: linear-gradient(to right, var(--amber-500), var(--orange-500));
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.875rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+/* Animations */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes pattern-move {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes badge-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.5); }
+}
+
+@keyframes title-glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+  50% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.8); }
+}
+
+@keyframes text-shimmer {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+
+@keyframes icon-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes wave-draw {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes content-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(251, 191, 36, 0.3); }
+  50% { box-shadow: 0 0 50px rgba(251, 191, 36, 0.5); }
+}
+
+@keyframes border-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes overlay-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, -30px) scale(1.2); }
+}
+
+@keyframes blob-float-reverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, 30px) scale(1.3); }
+}
+
+@keyframes blob-orbit-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(100px, -50px) scale(1.5); }
+}
+
+@keyframes blob-orbit-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, 50px) scale(1.3); }
+}
+
+@keyframes rocket-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes cta-pattern {
+  0%, 100% { background: linear-gradient(45deg, rgba(251, 191, 36, 0.8), rgba(249, 115, 22, 0.8)); }
+  50% { background: linear-gradient(225deg, rgba(251, 191, 36, 0.8), rgba(249, 115, 22, 0.8)); }
+}
+
+@keyframes sparkle-float {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-200px); opacity: 0; }
+}
+
+@keyframes float-element {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.2; }
+  50% { transform: translate(100px, -100px) rotate(180deg); opacity: 0.5; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar .container { height: 64px; }
+  .logo-icon { width: 48px; height: 48px; }
+  .logo-text { font-size: 1.5rem; }
+  .hero-agenda { min-height: 60vh; }
+  .carousel-section { height: 70vh; }
+  .carousel-btn { width: 48px; height: 48px; font-size: 1.25rem; }
+  .carousel-prev { left: 1rem; }
+  .carousel-next { right: 1rem; }
+  .stats-grid, .education-stats { grid-template-columns: 1fr; }
+  .trust-badges { gap: 0.5rem; }
+}
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-glow"></div>
+    <div class="container">
+      <a href="index.html" class="logo-link" aria-label="Ir al inicio">
+        <div class="logo-wrapper">
+          <div class="logo-glow"></div>
+          <div class="logo-icon">
+            <img src="Logo navbar.png" alt="Logo SolarMind" style="width:70%;height:70%;object-fit:contain;display:block;">
+          </div>
+        </div>
+        <span class="logo-text">SolarMind</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-agenda">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-pattern"></div>
+    <div class="floating-elements-container"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-globe"></i>
+        <span>Agenda 2030</span>
+      </div>
+
+      <h1 class="hero-title">
+        OBJETIVO 7:<br>
+        <span class="gradient-text">ENERGÍA ASEQUIBLE Y NO CONTAMINANTE</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        SolarMind: Liderando la Misión de Energía Universal y Sostenible.
+      </p>
+
+      <div class="hero-icons">
+        <div class="hero-icon" title="Naturaleza"><i class="fas fa-leaf"></i></div>
+        <div class="hero-icon" title="Energía"><i class="fas fa-bolt"></i></div>
+        <div class="hero-icon" title="Viento"><i class="fas fa-wind"></i></div>
+      </div>
+    </div>
+
+    <svg class="hero-wave" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" fill="#fffbeb"/>
+    </svg>
+  </section>
+
+  <!-- Carousel Section -->
+  <section class="carousel-section">
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <div class="carousel-slide active">
+          <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80" alt="Paneles solares">
+          <div class="carousel-overlay"></div>
+          <div class="carousel-content">
+            <h2>"ACCESIBILIDAD MÁS ALLÁ DEL CÓDIGO POSTAL"</h2>
+            <p>Instala SolarMind y comienza a ahorrar desde el primer día.</p>
+            <button class="btn-carousel" data-key="adquiere" aria-label="Adquiere el tuyo">
+              <i class="fas fa-shopping-cart"></i>
+              Adquiere el tuyo
+            </button>
+          </div>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1920&q=80" alt="Sostenibilidad">
+          <div class="carousel-overlay"></div>
+          <div class="carousel-content">
+            <h2>"LA ENERGÍA LIMPIA DEBE ESTAR AL ALCANCE DE TODOS"</h2>
+            <p>Elige energía limpia con SolarMind y reduce tu impacto ambiental.</p>
+            <button class="btn-carousel" data-key="planes" aria-label="Conoce nuestros planes">
+              <i class="fas fa-shopping-cart"></i>
+              Conoce nuestros planes
+            </button>
+          </div>
+        </div>
+
+        <div class="carousel-slide">
+          <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=1920&q=80" alt="Naturaleza solar">
+          <div class="carousel-overlay"></div>
+          <div class="carousel-content">
+            <h2>"ILUMINA TU VIDA, NO EL RECIBO DE LUZ"</h2>
+            <p>Con nuestra tecnología solar inteligente, disfruta energía limpia y económica.</p>
+            <button class="btn-carousel" data-key="cotizacion" aria-label="Solicita una cotización">
+              <i class="fas fa-shopping-cart"></i>
+              Solicita una cotización
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-btn carousel-prev" aria-label="Anterior">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="carousel-btn carousel-next" aria-label="Siguiente">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <div class="carousel-indicators">
+        <span class="indicator active" data-slide="0"></span>
+        <span class="indicator" data-slide="1"></span>
+        <span class="indicator" data-slide="2"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Objetivo Section -->
+  <section class="objetivo-section">
+    <div class="blob objetivo-blob"></div>
+    <div class="container">
+      <div class="grid">
+        <div class="image-side">
+          <div class="image-wrapper">
+            <div class="image-glow"></div>
+            <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80" alt="ODS 13">
+            <div class="image-border"></div>
+          </div>
+        </div>
+
+        <div class="content-side">
+          <div class="section-badge orange">
+            <i class="fas fa-bullseye"></i>
+            <span>Objetivo 13</span>
+          </div>
+
+          <h2 class="section-title">
+            ¿Qué busca el<br>
+            <span class="gradient-text">Objetivo 7?</span>
+          </h2>
+
+          <p class="section-text">
+            El <strong>Objetivo 7 de la Agenda 2030</strong> exige garantizar el acceso universal a servicios energéticos asequibles, 
+            fiables y modernos, y aumentar sustancialmente la proporción de energía renovable.
+            
+          </p>
+
+          <p class="section-text">
+            SolarMind es el motor para cumplir esta meta. Ofrecemos <strong>soluciones solares inteligentes y de bajo costo</strong> diseñadas para eliminar las barreras de acceso a la energía. Contribuimos directamente a la universalización de la energía limpia, transformando el sol en un derecho accesible.
+          </p>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class="fas fa-chart-line"></i>
+              <div class="stat-value">-30%</div>
+              <div class="stat-label">CO₂ Reducido</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-leaf"></i>
+              <div class="stat-value">10K+</div>
+              <div class="stat-label">Hogares Verdes</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-bullseye"></i>
+              <div class="stat-value">100%</div>
+              <div class="stat-label">Renovable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clima Section -->
+  <section class="clima-section">
+    <div class="blob clima-blob-1"></div>
+    <div class="blob clima-blob-2"></div>
+    <div class="particles-clima"></div>
+
+    <div class="container">
+      <div class="grid reverse">
+        <div class="content-side light">
+          <div class="section-badge light">
+            <i class="fas fa-cloud"></i>
+            <span>Acción Climática</span>
+          </div>
+
+          <h2 class="section-title light">
+            Energía fiable frente<br>
+            <span class="gradient-text">al Cambio Climático</span>
+          </h2>
+
+          <p class="section-text light">
+            El calentamiento global exige acciones urgentes. Para SolarMind, cada instalación no es solo ahorro; es una acción climática directa que cumple con el mandato del ODS 7 de sustituir combustibles contaminantes.
+            Cada hogar o negocio que elige nuestra energía limpia deja de emitir <strong>toneladas de CO₂ anualmente.</strong>.
+          </p>
+
+          <p class="section-text light">
+            Así, nuestra empresa no solo ofrece soluciones, sino que garantiza que la energía que consumes no comprometa el futuro del planeta.
+          </p>
+
+          <div class="features-list">
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-temperature-low"></i>
+              </div>
+              <span>Reduce el calentamiento global</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-cloud"></i>
+              </div>
+              <span>Disminuye emisiones de CO₂</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <span>Energía 100% limpia</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-side">
+          <div class="image-wrapper dark">
+            <div class="image-glow orange"></div>
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Panel Solar">
+            <div class="image-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Educacion Section -->
+  <section class="educacion-section">
+    <div class="blob educacion-blob"></div>
+    <div class="container">
+      <div class="grid">
+        <div class="image-side">
+          <div class="image-wrapper">
+            <div class="image-glow green"></div>
+            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80" alt="Educación Ambiental">
+            </div>
+        </div>
+
+        <div class="content-side">
+          <div class="section-badge green">
+            <i class="fas fa-book-open"></i>
+            <span>Educación</span>
+          </div>
+
+          <h2 class="section-title">
+            Educación y<br>
+            <span class="gradient-text-green">Conciencia Ambiental</span>
+          </h2>
+
+          <p class="section-text">
+            En SolarMind, nuestra misión de universalizar la energía comienza con el conocimiento. No solo instalamos tecnología; <strong>empoderamos a las comunidades</strong> educándolas sobre el valor real y la gestión eficiente de la energía limpia. Realizamos talleres escolares, campañas y colaboraciones locales para fomentar una cultura de independencia energética. De esta manera, ayudamos a cumplir la meta del ODS 7 al asegurarnos de que la tecnología sea entendida, adoptada y gestionada por todos.
+          </p>
+
+          <p class="section-text">
+            Realizamos campañas informativas, talleres escolares y colaboraciones locales para fomentar una cultura ambiental responsable.
+            De esta manera, ayudamos a cumplir la meta 13.3 del ODS.
+          </p>
+
+          <div class="education-stats">
+            <div class="edu-card">
+              <i class="fas fa-book-open"></i>
+              <div class="edu-value">50+</div>
+              <div class="edu-label">Talleres</div>
+            </div>
+            <div class="edu-card">
+              <i class="fas fa-users"></i>
+              <div class="edu-value">5K+</div>
+              <div class="edu-label">Personas</div>
+            </div>
+            <div class="edu-card">
+              <i class="fas fa-lightbulb"></i>
+              <div class="edu-value">30+</div>
+              <div class="edu-label">Comunidades</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="cta-pattern"></div>
+    <div class="sparkles-container"></div>
+
+    <div class="container">
+      <div class="cta-content">
+        <div class="cta-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+
+        <h2 class="cta-title">
+          ¡ACELERA EL CAMBIO: LA ENERGÍA DEL FUTURO ESTÁ EN TUS MANOS!
+        </h2>
+
+        <p class="cta-text">
+          Cada sistema SolarMind es un avance directo hacia el ODS 7: Garantizar el acceso a energía asequible y limpia para todos. No solo ahorras; impulsas la justicia energética global.<br>
+          Actúa hoy por la accesibilidad. Actúa con SolarMind.
+        </p>
+
+        <div class="cta-buttons">
+          <button class="btn-cta primary" data-key="sumate" aria-label="Súmate al Objetivo 13">
+            <i class="fas fa-rocket"></i>
+            Súmate al Objetivo 7
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <button class="btn-cta secondary" data-key="conoce" aria-label="Conoce más">
+            Conoce más
+          </button>
+        </div>
+
+        <div class="trust-badges">
+          <div class="badge-item">ODS 13</div>
+          <div class="badge-item">10K+ Clientes</div>
+          <div class="badge-item">100% Limpio</div>
+          <div class="badge-item">-30% CO₂</div>
+        </div>
+      </div>
+    </div>
+
+    <svg class="cta-wave" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,58.7C960,64,1056,64,1152,58.7C1248,53,1344,43,1392,37.3L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z" fill="#fffbeb"/>
+    </svg>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 SOLAR MIND | Energía inteligente para un planeta sostenible</p>
+    </div>
+  </footer>
+
+  <script>
+// Centraliza aquí las 5 rutas/links que quieras usar.
+// Reemplaza los valores por tus archivos locales o URLs completas.
+// Si pones una URL que empieza por http:// o https:// se abrirá en nueva pestaña.
+// Los keys disponibles: "adquiere", "planes", "cotizacion", "sumate", "conoce"
+const SolarLinks = {
+  adquiere: 'catalogo.html',
+  planes: 'planes-casas.html',
+  cotizacion: 'cotizaciones.html',
+  sumate: 'https://www.pactomundial.org/ods/7-energia-asequible-y-no-contaminante/',
+  conoce: 'https://www.un.org/sustainabledevelopment/es/energy/'
+};
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', function() {
+    initFloatingElements();
+    initCarousel();
+    initSmoothScroll();
+    initAnimationsOnScroll();
+    initSparkles();
+    initParticles();
+    initButtonRedirects(); // usa SolarLinks
+});
+
+// ---------- resto de la lógica (sin cambios funcionales) ----------
+
+// Create floating elements in hero
+function initFloatingElements() {
+    const container = document.querySelector('.floating-elements-container');
+    if (!container) return;
+    
+    const icons = ['fa-leaf', 'fa-bolt', 'fa-globe', 'fa-wind'];
+    
+    for (let i = 0; i < 4; i++) {
+        const element = document.createElement('div');
+        element.className = 'float-element';
+        element.innerHTML = `<i class="fas ${icons[i]}"></i>`;
+        element.style.left = Math.random() * 100 + '%';
+        element.style.top = Math.random() * 100 + '%';
+        element.style.animationDelay = Math.random() * 5 + 's';
+        element.style.animationDuration = (10 + Math.random() * 5) + 's';
+        container.appendChild(element);
+    }
+}
+
+// Carousel functionality
+function initCarousel() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    let currentSlide = 0;
+    let autoplayInterval;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(ind => ind.classList.remove('active'));
+        
+        if (index >= slides.length) currentSlide = 0;
+        if (index < 0) currentSlide = slides.length - 1;
+        
+        slides[currentSlide].classList.add('active');
+        indicators[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+        currentSlide++;
+        if (currentSlide >= slides.length) currentSlide = 0;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide--;
+        if (currentSlide < 0) currentSlide = slides.length - 1;
+        showSlide(currentSlide);
+    }
+
+    function startAutoplay() {
+        autoplayInterval = setInterval(nextSlide, 5000);
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoplayInterval);
+    }
+
+    // Event listeners
+    nextBtn?.addEventListener('click', () => {
+        nextSlide();
+        stopAutoplay();
+        startAutoplay();
+    });
+
+    prevBtn?.addEventListener('click', () => {
+        prevSlide();
+        stopAutoplay();
+        startAutoplay();
+    });
+
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+            stopAutoplay();
+            startAutoplay();
+        });
+    });
+
+    // Start autoplay
+    startAutoplay();
+
+    // Pause on hover
+    const carouselContainer = document.querySelector('.carousel-container');
+    carouselContainer?.addEventListener('mouseenter', stopAutoplay);
+    carouselContainer?.addEventListener('mouseleave', startAutoplay);
+}
+
+// Smooth scroll for internal links
+function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+}
+
+// Animations on scroll
+function initAnimationsOnScroll() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Observe elements
+    const elements = document.querySelectorAll('.stat-card, .feature-item, .edu-card');
+    elements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// Create sparkles for CTA
+function initSparkles() {
+    const container = document.querySelector('.sparkles-container');
+    if (!container) return;
+
+    for (let i = 0; i < 15; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.innerHTML = '<i class="fas fa-sparkles"></i>';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 3 + 's';
+        sparkle.style.animationDuration = (Math.random() * 5 + 3) + 's';
+        container.appendChild(sparkle);
+    }
+}
+
+// Create particles for clima section
+function initParticles() {
+    const container = document.querySelector('.particles-clima');
+    if (!container) return;
+
+    for (let i = 0; i < 10; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = '4px';
+        particle.style.height = '4px';
+        particle.style.background = 'rgba(251, 191, 36, 0.4)';
+        particle.style.borderRadius = '50%';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animation = `sparkle-float ${Math.random() * 6 + 4}s ease-in-out infinite`;
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        container.appendChild(particle);
+    }
+}
+
+// Parallax effect
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    
+    // Parallax for blobs
+    const blobs = document.querySelectorAll('.blob, .clima-blob-1, .clima-blob-2');
+    blobs.forEach((blob, index) => {
+        const speed = (index + 1) * 0.1;
+        blob.style.transform = `translate(${Math.sin(scrolled * 0.001) * 50}px, ${scrolled * speed}px)`;
+    });
+});
+
+// Add ripple effect to buttons (delegado)
+function addRippleTo(el, e) {
+    const ripple = document.createElement('span');
+    ripple.style.position = 'absolute';
+    ripple.style.borderRadius = '50%';
+    ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+    ripple.style.width = '100px';
+    ripple.style.height = '100px';
+    ripple.style.marginTop = '-50px';
+    ripple.style.marginLeft = '-50px';
+    ripple.style.animation = 'ripple 0.6s ease-out';
+    ripple.style.pointerEvents = 'none';
+    
+    const rect = el.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top = (e.clientY - rect.top) + 'px';
+    
+    el.style.position = 'relative';
+    el.style.overflow = 'hidden';
+    el.appendChild(ripple);
+    
+    setTimeout(() => ripple.remove(), 600);
+}
+
+// Redirect behavior: mapea data-key -> SolarLinks
+function initButtonRedirects() {
+    // Delegación: escucha clicks en el documento para botones con data-key o data-href
+    document.addEventListener('click', function(event) {
+        const el = event.target.closest('[data-key], [data-href]');
+        if (!el) return;
+
+        // Añade efecto ripple si es botón/carousel/cta/badge
+        if (el.classList.contains('btn-carousel') || el.classList.contains('btn-cta') || el.classList.contains('badge-item')) {
+            try { addRippleTo(el, event); } catch(e){/* no crítico */}
+        }
+
+        // Prioridad: data-key (nuestra centralización). Si no existe, cae en data-href (compatibilidad).
+        const key = el.getAttribute('data-key');
+        let href = null;
+
+        if (key) {
+            // busca en SolarLinks
+            href = SolarLinks[key];
+            if (!href) {
+                console.warn(`SolarLinks no contiene la clave '${key}'. Revisa agenda2030.js`);
+                return;
+            }
+        } else {
+            href = el.getAttribute('data-href')?.trim();
+        }
+
+        if (!href) return;
+
+        // Si es una URL externa, abrir en nueva pestaña
+        if (/^https?:\/\//i.test(href)) {
+            window.open(href, '_blank', 'noopener');
+        } else {
+            // navegación local / ruta relativa
+            window.location.href = href;
+        }
+    });
+}
+
+// Añade ripple animation CSS (si aún no existe)
+(function addRippleStyle() {
+    if (document.getElementById('solar-ripple-style')) return;
+    const style = document.createElement('style');
+    style.id = 'solar-ripple-style';
+    style.textContent = `
+        @keyframes ripple {
+            from { opacity: 1; transform: scale(0); }
+            to { opacity: 0; transform: scale(4); }
+        }
+    `;
+    document.head.appendChild(style);
+})();
+
+
+console.log('🌞 SolarMind - Agenda 2030 ODS 13 cargado correctamente. En SolarLinks coloca tus 5 URLs.');
+
+  </script>
+</body>
+</html>
